@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mahmoud\\Desktop\\WebProject\\WebProject\\WebProject.csproj": {}
+    "C:\\Users\\Ahmed_364\\OneDrive\\Desktop\\WebProject\\Web\\WebProject\\WebProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mahmoud\\Desktop\\WebProject\\WebProject\\WebProject.csproj": {
+    "C:\\Users\\Ahmed_364\\OneDrive\\Desktop\\WebProject\\Web\\WebProject\\WebProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mahmoud\\Desktop\\WebProject\\WebProject\\WebProject.csproj",
+        "projectUniqueName": "C:\\Users\\Ahmed_364\\OneDrive\\Desktop\\WebProject\\Web\\WebProject\\WebProject.csproj",
         "projectName": "WebProject",
-        "projectPath": "C:\\Users\\Mahmoud\\Desktop\\WebProject\\WebProject\\WebProject.csproj",
-        "packagesPath": "C:\\Users\\Mahmoud\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mahmoud\\Desktop\\WebProject\\WebProject\\obj\\",
+        "projectPath": "C:\\Users\\Ahmed_364\\OneDrive\\Desktop\\WebProject\\Web\\WebProject\\WebProject.csproj",
+        "packagesPath": "C:\\Users\\Ahmed_364\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ahmed_364\\OneDrive\\Desktop\\WebProject\\Web\\WebProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Mahmoud\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Ahmed_364\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -39,12 +39,25 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
-        }
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -56,6 +69,24 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[8.0.11, 8.0.11]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -64,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
