@@ -1,0 +1,37 @@
+# Ignore build output folders
+/bin/
+/obj/
+
+# Ignore user-specific files
+*.user
+*.userosscache
+*.suo
+*.vspscc
+*.vssscc
+
+# Ignore configuration files
+appsettings.Development.json
+appsettings.Local.json
+
+# Ignore compiled binaries
+*.dll
+*.exe
+*.pdb
+*.cache
+*.suo
+
+# Ignore package directories
+/packages/
+
+# Ignore ASP.NET Core-specific files
+wwwroot/
+node_modules/
+
+# Ignore logs and temporary files
+logs/
+log/
+*.log
+
+# Ignore dotnet temporary files
+.vscode/
+.idea/
