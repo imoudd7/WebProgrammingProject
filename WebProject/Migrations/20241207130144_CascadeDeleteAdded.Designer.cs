@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241207130144_CascadeDeleteAdded")]
+    partial class CascadeDeleteAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,9 +44,6 @@ namespace WebProject.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServislerServiceId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Ucret")
                         .HasColumnType("decimal(18,2)");
 
@@ -51,35 +51,32 @@ namespace WebProject.Migrations
 
                     b.HasIndex("PersonalId");
 
-                    b.HasIndex("ServislerServiceId");
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointments");
                 });
 
             modelBuilder.Entity("WebProject.Models.Personal", b =>
                 {
-                    b.Property<int>("PersonalID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonalID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ad")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("SalonId")
                         .HasColumnType("int");
 
                     b.Property<string>("Soyad")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Uzmanlik")
-                        .IsRequired()
+                    b.Property<string>("Uzmanlık")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PersonalID");
+                    b.HasKey("Id");
 
                     b.HasIndex("SalonId");
 
@@ -100,15 +97,18 @@ namespace WebProject.Migrations
                     b.Property<int>("DayOfWeek")
                         .HasColumnType("int");
 
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<TimeSpan>("OpeningTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("PersonalID")
+                    b.Property<int>("PersonalId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonalID");
+                    b.HasIndex("PersonalId");
 
                     b.ToTable("Personal_Calisma_Zamanlari");
                 });
@@ -121,31 +121,31 @@ namespace WebProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonalID"));
 
-                    b.Property<int>("PersonalID1")
+                    b.Property<int>("PersonalId")
                         .HasColumnType("int");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServislerServiceId")
+                    b.Property<int>("ServislerId")
                         .HasColumnType("int");
 
                     b.HasKey("PersonalID");
 
-                    b.HasIndex("PersonalID1");
+                    b.HasIndex("PersonalId");
 
-                    b.HasIndex("ServislerServiceId");
+                    b.HasIndex("ServislerId");
 
                     b.ToTable("Personal_servisleri");
                 });
 
             modelBuilder.Entity("WebProject.Models.Salons", b =>
                 {
-                    b.Property<int>("SalonId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalonId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -162,18 +162,18 @@ namespace WebProject.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("SalonId");
+                    b.HasKey("Id");
 
                     b.ToTable("Salonlar");
                 });
 
             modelBuilder.Entity("WebProject.Models.Services", b =>
                 {
-                    b.Property<int>("ServiceId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ServiceId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
@@ -187,7 +187,7 @@ namespace WebProject.Migrations
                     b.Property<int>("SalonId")
                         .HasColumnType("int");
 
-                    b.HasKey("ServiceId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SalonId");
 
@@ -196,7 +196,7 @@ namespace WebProject.Migrations
 
             modelBuilder.Entity("WebProject.Models.Appointments", b =>
                 {
-                    b.HasOne("WebProject.Models.Personal", "Person")
+                    b.HasOne("WebProject.Models.Personal", "Employee")
                         .WithMany()
                         .HasForeignKey("PersonalId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -204,11 +204,11 @@ namespace WebProject.Migrations
 
                     b.HasOne("WebProject.Models.Services", "Servisler")
                         .WithMany()
-                        .HasForeignKey("ServislerServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.Navigation("Person");
+                    b.Navigation("Employee");
 
                     b.Navigation("Servisler");
                 });
@@ -228,7 +228,7 @@ namespace WebProject.Migrations
                 {
                     b.HasOne("WebProject.Models.Personal", "Personal")
                         .WithMany("Personal_Zamanlari")
-                        .HasForeignKey("PersonalID")
+                        .HasForeignKey("PersonalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -239,13 +239,13 @@ namespace WebProject.Migrations
                 {
                     b.HasOne("WebProject.Models.Personal", "Personal")
                         .WithMany("Personal_Servisler")
-                        .HasForeignKey("PersonalID1")
+                        .HasForeignKey("PersonalId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebProject.Models.Services", "Servisler")
                         .WithMany()
-                        .HasForeignKey("ServislerServiceId")
+                        .HasForeignKey("ServislerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
