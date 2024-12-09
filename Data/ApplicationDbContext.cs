@@ -9,7 +9,7 @@ public class ApplicationDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=localhost;Database=Ahmed_Mahmoud;Trusted_Connection=True;");
+        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Web_Project;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
     }
     public DbSet<Salons>? Salonlar { get; set; }
     public DbSet<Services>? Servisler { get; set; }
@@ -17,6 +17,5 @@ public class ApplicationDbContext : DbContext
     public DbSet<PersonalServices>? Personal_servisleri { get; set; }
     public DbSet<PersonalAvailabilities>? Personal_Calisma_Zamanlari { get; set; }
     public DbSet<Appointments>? Appointments { get; set; }
-
 
 }

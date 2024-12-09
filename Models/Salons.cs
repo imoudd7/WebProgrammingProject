@@ -4,7 +4,7 @@ namespace WebProject.Models;
 
 public class Salons
 {
-    [Key] public int Id { get; set; }
+    [Key] public int SalonId { get; set; }
     public string? Name { get; set; }
     public string? Address { get; set; }
     public string? PhoneNumber { get; set; }
