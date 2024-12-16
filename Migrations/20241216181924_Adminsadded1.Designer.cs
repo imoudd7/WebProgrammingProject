@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241207133343_DataAnnotationsAndSchema")]
-    partial class DataAnnotationsAndSchema
+    [Migration("20241216181924_Adminsadded1")]
+    partial class Adminsadded1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,23 +38,10 @@ namespace WebProject.Migrations
                     b.Property<bool>("Onay")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PersonalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServislerServiceId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Ucret")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PersonalId");
-
-                    b.HasIndex("ServislerServiceId");
 
                     b.ToTable("Appointments");
                 });
@@ -71,9 +58,6 @@ namespace WebProject.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SalonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Soyad")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -83,8 +67,6 @@ namespace WebProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("PersonalID");
-
-                    b.HasIndex("SalonId");
 
                     b.ToTable("Personaller");
                 });
@@ -106,7 +88,7 @@ namespace WebProject.Migrations
                     b.Property<TimeSpan>("OpeningTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("PersonalID")
+                    b.Property<int?>("PersonalID")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -114,32 +96,6 @@ namespace WebProject.Migrations
                     b.HasIndex("PersonalID");
 
                     b.ToTable("Personal_Calisma_Zamanlari");
-                });
-
-            modelBuilder.Entity("WebProject.Models.PersonalServices", b =>
-                {
-                    b.Property<int>("PersonalID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PersonalID"));
-
-                    b.Property<int>("PersonalID1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServislerServiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PersonalID");
-
-                    b.HasIndex("PersonalID1");
-
-                    b.HasIndex("ServislerServiceId");
-
-                    b.ToTable("Personal_servisleri");
                 });
 
             modelBuilder.Entity("WebProject.Models.Salons", b =>
@@ -151,18 +107,21 @@ namespace WebProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalonId"));
 
                     b.Property<string>("Address")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("ClosingTime")
                         .HasColumnType("time");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("OpeningTime")
                         .HasColumnType("time");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SalonId");
@@ -182,90 +141,66 @@ namespace WebProject.Migrations
                         .HasColumnType("time");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PersonalID")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("SalonId")
-                        .HasColumnType("int");
-
                     b.HasKey("ServiceId");
 
-                    b.HasIndex("SalonId");
+                    b.HasIndex("PersonalID");
 
                     b.ToTable("Servisler");
                 });
 
-            modelBuilder.Entity("WebProject.Models.Appointments", b =>
+            modelBuilder.Entity("WebProject.Models.User", b =>
                 {
-                    b.HasOne("WebProject.Models.Personal", "Person")
-                        .WithMany()
-                        .HasForeignKey("PersonalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("WebProject.Models.Services", "Servisler")
-                        .WithMany()
-                        .HasForeignKey("ServislerServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
-                    b.Navigation("Person");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("Servisler");
-                });
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-            modelBuilder.Entity("WebProject.Models.Personal", b =>
-                {
-                    b.HasOne("WebProject.Models.Salons", "Salon")
-                        .WithMany("Personals")
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("Salon");
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebProject.Models.PersonalAvailabilities", b =>
                 {
-                    b.HasOne("WebProject.Models.Personal", "Personal")
+                    b.HasOne("WebProject.Models.Personal", null)
                         .WithMany("Personal_Zamanlari")
-                        .HasForeignKey("PersonalID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Personal");
-                });
-
-            modelBuilder.Entity("WebProject.Models.PersonalServices", b =>
-                {
-                    b.HasOne("WebProject.Models.Personal", "Personal")
-                        .WithMany("Personal_Servisler")
-                        .HasForeignKey("PersonalID1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProject.Models.Services", "Servisler")
-                        .WithMany()
-                        .HasForeignKey("ServislerServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Personal");
-
-                    b.Navigation("Servisler");
+                        .HasForeignKey("PersonalID");
                 });
 
             modelBuilder.Entity("WebProject.Models.Services", b =>
                 {
-                    b.HasOne("WebProject.Models.Salons", "Salon")
-                        .WithMany()
-                        .HasForeignKey("SalonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Salon");
+                    b.HasOne("WebProject.Models.Personal", null)
+                        .WithMany("Personal_Servisler")
+                        .HasForeignKey("PersonalID");
                 });
 
             modelBuilder.Entity("WebProject.Models.Personal", b =>
@@ -273,11 +208,6 @@ namespace WebProject.Migrations
                     b.Navigation("Personal_Servisler");
 
                     b.Navigation("Personal_Zamanlari");
-                });
-
-            modelBuilder.Entity("WebProject.Models.Salons", b =>
-                {
-                    b.Navigation("Personals");
                 });
 #pragma warning restore 612, 618
         }

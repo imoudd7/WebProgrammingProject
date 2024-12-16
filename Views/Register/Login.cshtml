@@ -1,7 +1,12 @@
-@model User
+@model WebProject.Models.User
 <link rel="stylesheet" href="~/css/Login.css">
 
 <h2>Login</h2>
+
+@if (TempData["msj"] != null)
+{
+    <div class="text-danger">@TempData["msj"]</div>
+}
 
 <form asp-controller="Register" asp-action="Logging" method="post">
     <div>

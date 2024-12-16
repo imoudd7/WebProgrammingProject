@@ -7,38 +7,36 @@ namespace WebProject.Controllers;
 public class RegisterController : Controller
 {
     private readonly ApplicationDbContext _context;
-    private List<(string Email, string Password, UserRole Role)> Users { get; set; } = new();
-
-    public static void Adminekle(ApplicationDbContext context)
-    {
-        if (!context.Users.Any(u => u.Role == UserRole.Admin))
-        {
-            var admin1 = new User
-            {
-                Email = "G221210569@sakarya.edu.tr",
-                Password = HashPassword("sau"),
-                Role = UserRole.Admin
-            };
-
-            var admin2 = new User
-            {
-                Email = "G221210588@sakarya.edu.tr",
-                Password = HashPassword("sau"),
-                Role = UserRole.Admin
-            };
-
-            context.Users.AddRange(admin1, admin2);
-            context.SaveChanges();
-        }
-    }
 
 
 
     public RegisterController(ApplicationDbContext context)
     {
         _context = context;
+        if (!_context.Users.Any(u => u.Role == UserRole.Admin))
+        {
+            // Create a list of admin users
+            var admins = new List<User>
+        {
+            new User
+            {
+                Email = "G221210569@sakarya.edu.tr",
+                Password = HashPassword("sau"), // Always hash the password before saving
+                Role = UserRole.Admin
+            },
+            new User
+            {
+                Email = "G221210588@sakarya.edu.tr",
+                Password = HashPassword("sau"),
+                Role = UserRole.Admin
+            }
+        };
 
-        Adminekle(_context);
+
+            _context.Users.AddRange(admins);
+            _context.SaveChanges();
+        }
+
 
     }
 
@@ -61,23 +59,28 @@ public class RegisterController : Controller
 
         var hashedPassword = HashPassword(model.Password);
 
+        // Fetch the user from the database
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
 
         if (user == null)
         {
-            ViewBag.ErrorMessage = "User does not exist.";
+            TempData["msj"] = "User does not exist.";
             return View("Login");
         }
 
         if (user.Password != hashedPassword)
         {
-            ViewBag.ErrorMessage = "Incorrect password.";
+            TempData["msj"] = "Incorrect password or email";
             return View("Login");
         }
 
+        // Debug: Log the user role
+        Console.WriteLine("Logged-in user's role: " + user.Role);
+
         if (user.Role == UserRole.Admin)
         {
-            return RedirectToAction("Dashboard", "Admin");
+            Console.WriteLine("Redirecting to Admin Dashboard...");
+            return RedirectToAction("AdminDashboard", "Admin");
         }
 
         return RedirectToAction("Index", "Home");
@@ -98,10 +101,10 @@ public class RegisterController : Controller
     {
         if (!ModelState.IsValid)
         {
-            return View(model); // Return view with validation errors
+            return View(model);
         }
 
-        // Check if the email already exists in the database
+
         if (await _context.Users.AnyAsync(u => u.Email == model.Email))
         {
             ModelState.AddModelError("Email", "This email is already registered.");
@@ -113,14 +116,14 @@ public class RegisterController : Controller
         {
             Email = model.Email,
             Password = HashPassword(model.Password),
-            Role = UserRole.Customer // Assign default role
+            Role = UserRole.Customer
         };
 
         // Save the user to the database
         _context.Users.Add(newUser);
         await _context.SaveChangesAsync();
 
-        // Redirect to login page after successful signup
+
         return RedirectToAction("Login");
     }
 

@@ -11,11 +11,21 @@ public class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Web_Project;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
+
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+    }
+
+
+
+
+
     public DbSet<Salons> Salonlar { get; set; } = null!;
     public DbSet<Services> Servisler { get; set; } = null!;
     public DbSet<Personal> Personaller { get; set; } = null!;
-    public DbSet<PersonalServices> Personal_servisleri { get; set; } = null!;
     public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
     public DbSet<Appointments> Appointments { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
