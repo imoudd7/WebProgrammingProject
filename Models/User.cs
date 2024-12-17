@@ -1,17 +1,32 @@
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace WebProject.Models;
 
 public class User
 {
+  [Key]
+  [Required]
+  public int UserId { get; set; }
 
-  [Key][Required] public int UserId { get; set; }
+  [Required(ErrorMessage = "First Name is required")]
+  [Display(Name = "First Name")]
+  public string FirstName { get; set; } = string.Empty;
 
-  [Required][Display(Name = "Ad")] public string? FirstName { get; set; }
-  [Required][Display(Name = "Soyad")] public string? LastName { get; set; }
-  [Required][EmailAddress(ErrorMessage = "Invalid email address")] public string? Email { get; set; }
-  [Required][Display(Name = "Sifre")] public string? Password { get; set; }
-  public string Role { get; set; } = "User";
+  [Required(ErrorMessage = "Last Name is required")]
+  [Display(Name = "Last Name")]
+  public string LastName { get; set; } = string.Empty;
 
+  [Required(ErrorMessage = "Email is required")]
+  [EmailAddress(ErrorMessage = "Invalid email address")]
+  [Display(Name = "Email Address")]
+  public string Email { get; set; }
+
+  [Required(ErrorMessage = "Password is required")]
+  [DataType(DataType.Password)]
+  [Display(Name = "Password")]
+  public string Password { get; set; }
+
+  [Required]
+  [Display(Name = "Role")]
+  public UserRole Role { get; set; } = UserRole.Customer;
 }

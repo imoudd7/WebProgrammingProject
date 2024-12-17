@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebProject.Controllers;
 
 
-[Authorize(Roles = "Admin")]
+// [Authorize(Roles = 0)]
 public class AdminController : Controller
 {
-    private readonly ApplicationDbContext _context;
 
-    public AdminController(ApplicationDbContext context)
+
+    public ActionResult AdminDashboard()
     {
-        _context = context;
+        return View();
     }
 }

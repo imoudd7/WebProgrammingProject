@@ -4,7 +4,7 @@ namespace WebProject.Controllers;
 
 public class AppointmentController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Randevu()
     {
         return View();
     }

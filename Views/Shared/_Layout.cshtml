@@ -7,8 +7,6 @@
     <title>@ViewData["Title"] - Barber Shop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/LandingPage.css" asp-append-version="true" />
-
-
 </head>
 
 <body>
@@ -24,7 +22,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
+                            <a class="nav-link active" asp-controller="Home" asp-action="Privacy">Ana Sayfa</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Services">Servisler</a>
@@ -33,7 +31,7 @@
                             <a class="nav-link" asp-controller="Appointment" asp-action="Index">Randevular</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Register" asp-action="Logging">Sign In</a>
+                            <a class="nav-link" asp-controller="Register" asp-action="Login">Sign In</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
@@ -51,6 +49,9 @@
     <footer>
         <p>&copy; 2024 Web Project Berber Randevu Sistemi</p>
     </footer>
+
+    <!-- Optional Scripts Section -->
+    @RenderSection("Scripts", required: false)
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
