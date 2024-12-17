@@ -1,5 +1,5 @@
 @model WebProject.Models.User
-<link rel="stylesheet" href="~/css/Login.css">
+
 
 <h2>Login</h2>
 
@@ -8,15 +8,15 @@
     <div class="text-danger">@TempData["msj"]</div>
 }
 
-<form asp-controller="Register" asp-action="Logging" method="post">
+<form asp-action="Logging" method="post">
     <div>
         <label for="Email">Email:</label>
-        <input asp-for="Email" type="email" id="Email" name="Email" value="@Model?.Email" required />
+        <input asp-for="Email" type="email" name="Email" value="@Model?.Email" required />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div>
         <label for="Password">Password:</label>
-        <input asp-for="Password" type="password" id="Password" name="Password" required />
+        <input asp-for="Password" type="password" name="Password" required />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div>
@@ -26,7 +26,7 @@
 
 <!-- Signup link -->
 <div>
-    <p>Don't have an account? <a asp-controller="Register" asp-action="Signup">Sign up here</a>.</p>
+    <p>Don't have an account? <a asp-action="Signup">Sign up here</a>.</p>
 </div>
 
 @section Scripts {

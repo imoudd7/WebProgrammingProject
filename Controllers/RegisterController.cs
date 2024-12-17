@@ -7,9 +7,6 @@ namespace WebProject.Controllers;
 public class RegisterController : Controller
 {
     private readonly ApplicationDbContext _context;
-
-
-
     public RegisterController(ApplicationDbContext context)
     {
         _context = context;
@@ -21,13 +18,13 @@ public class RegisterController : Controller
             new User
             {
                 Email = "G221210569@sakarya.edu.tr",
-                Password = HashPassword("sau"), // Always hash the password before saving
+                Password = "sau",
                 Role = UserRole.Admin
             },
             new User
             {
                 Email = "G221210588@sakarya.edu.tr",
-                Password = HashPassword("sau"),
+                Password ="sau",
                 Role = UserRole.Admin
             }
         };
@@ -57,7 +54,7 @@ public class RegisterController : Controller
             return View("Login");
         }
 
-        var hashedPassword = HashPassword(model.Password);
+
 
         // Fetch the user from the database
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
@@ -68,14 +65,14 @@ public class RegisterController : Controller
             return View("Login");
         }
 
-        if (user.Password != hashedPassword)
+        if (user.Password != model.Password)
         {
             TempData["msj"] = "Incorrect password or email";
             return View("Login");
         }
 
         // Debug: Log the user role
-        Console.WriteLine("Logged-in user's role: " + user.Role);
+
 
         if (user.Role == UserRole.Admin)
         {
@@ -115,7 +112,7 @@ public class RegisterController : Controller
         var newUser = new User
         {
             Email = model.Email,
-            Password = HashPassword(model.Password),
+            Password = model.Password,
             Role = UserRole.Customer
         };
 
@@ -128,13 +125,5 @@ public class RegisterController : Controller
     }
 
 
-    private static string HashPassword(string? password)
-    {
-        using (var sha256 = System.Security.Cryptography.SHA256.Create())
-        {
-            var bytes = System.Text.Encoding.UTF8.GetBytes(password ?? string.Empty);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
-        }
-    }
+
 }
