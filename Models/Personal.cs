@@ -15,7 +15,7 @@ public class Personal
 
 
 
-    public ICollection<Services> Personal_Servisler { get; set; } = new List<Services>();
+    public ICollection<Service> Personal_Servisler { get; set; } = new List<Service>();
     public ICollection<PersonalAvailabilities> Personal_Zamanlari { get; set; } = new List<PersonalAvailabilities>();
 }
 

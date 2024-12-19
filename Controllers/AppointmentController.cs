@@ -4,8 +4,17 @@ namespace WebProject.Controllers;
 
 public class AppointmentController : Controller
 {
-    public IActionResult Randevu()
+
+    private readonly ApplicationDbContext context;
+    public AppointmentController(ApplicationDbContext context)
     {
-        return View();
+        this.context = context;
+    }
+
+
+    public IActionResult GetAllAppointments()
+    {
+        var Appointments = context.Appointments.ToList();
+        return View(Appointments);
     }
 }
