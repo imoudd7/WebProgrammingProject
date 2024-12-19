@@ -24,7 +24,7 @@ public class ApplicationDbContext : DbContext
 
 
     public DbSet<Salons> Salonlar { get; set; } = null!;
-    public DbSet<Services> Servisler { get; set; } = null!;
+    public DbSet<Service> Servisler { get; set; } = null!;
     public DbSet<Personal> Personaller { get; set; } = null!;
     public DbSet<Admin> Adminler { get; set; } = null!;
     public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
