@@ -23,10 +23,10 @@ public class ApplicationDbContext : DbContext
 
 
 
-    public DbSet<Salons> Salonlar { get; set; } = null!;
-    public DbSet<Service> Servisler { get; set; } = null!;
-    public DbSet<Personal> Personaller { get; set; } = null!;
-    public DbSet<Admin> Adminler { get; set; } = null!;
+    public DbSet<Salons> Salons { get; set; } = null!;
+    public DbSet<Service> Services { get; set; } = null!;
+    public DbSet<Personal> Personals { get; set; } = null!;
+    public DbSet<Admin> Admins { get; set; } = null!;
     public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
     public DbSet<Appointments> Appointments { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
