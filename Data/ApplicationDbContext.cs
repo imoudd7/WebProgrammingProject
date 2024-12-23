@@ -23,7 +23,7 @@ public class ApplicationDbContext : DbContext
 
 
 
-    public DbSet<Salons> Salons { get; set; } = null!;
+    public DbSet<Salon> Salons { get; set; } = null!;
     public DbSet<Service> Services { get; set; } = null!;
     public DbSet<Personal> Personals { get; set; } = null!;
     public DbSet<Admin> Admins { get; set; } = null!;
