@@ -12,7 +12,7 @@ namespace WebProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20241217192736_someedits")]
-    partial class someedits
+    partial class Someedits
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

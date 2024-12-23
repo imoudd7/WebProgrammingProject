@@ -4,22 +4,21 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Services</title>
+    <title>@ViewData["Title"] - Berber Randevu Sistemi</title>
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Popper.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    @* <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> *@
 </head>
 
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Berber Randevu Sistemi </a>
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">Berber Randevu Sistemi</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -35,30 +34,39 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Appointment" asp-action="Index">Randevular</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Register" asp-action="Login">Sign In</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
-                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Yetki</a>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin"
+                                        asp-action="AdminDashboard">Admin</a>
+                                </li>
+                            }
+                        }
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
 
-    <main>
+    <main class="container mt-4">
         @RenderBody()
     </main>
 
-    <footer>
+    <footer class="bg-light text-center py-3 mt-4">
         <p>&copy; 2024 Web Project Berber Randevu Sistemi</p>
     </footer>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Optional Scripts Section -->
     @RenderSection("Scripts", required: false)
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

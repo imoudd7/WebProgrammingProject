@@ -21,33 +21,6 @@ namespace WebProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("WebProject.Models.Admin", b =>
-                {
-                    b.Property<int>("AdminId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AdminId");
-
-                    b.ToTable("Adminler");
-                });
-
             modelBuilder.Entity("WebProject.Models.Appointments", b =>
                 {
                     b.Property<int>("Id")
@@ -59,33 +32,15 @@ namespace WebProject.Migrations
                     b.Property<DateTime>("AppointmentTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsConfirmed")
+                    b.Property<bool>("Onay")
                         .HasColumnType("bit");
-
-                    b.Property<int>("PersonalId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Ucret")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonalId");
-
-                    b.HasIndex("ServiceId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("WebProject.Models.Personal", b =>
@@ -110,7 +65,7 @@ namespace WebProject.Migrations
 
                     b.HasKey("PersonalID");
 
-                    b.ToTable("Personaller");
+                    b.ToTable("Personaller", (string)null);
                 });
 
             modelBuilder.Entity("WebProject.Models.PersonalAvailabilities", b =>
@@ -137,7 +92,7 @@ namespace WebProject.Migrations
 
                     b.HasIndex("PersonalID");
 
-                    b.ToTable("Personal_Calisma_Zamanlari");
+                    b.ToTable("Personal_Calisma_Zamanlari", (string)null);
                 });
 
             modelBuilder.Entity("WebProject.Models.Salons", b =>
@@ -168,10 +123,10 @@ namespace WebProject.Migrations
 
                     b.HasKey("SalonId");
 
-                    b.ToTable("Salonlar");
+                    b.ToTable("Salonlar", (string)null);
                 });
 
-            modelBuilder.Entity("WebProject.Models.Service", b =>
+            modelBuilder.Entity("WebProject.Models.Services", b =>
                 {
                     b.Property<int>("ServiceId")
                         .ValueGeneratedOnAdd()
@@ -196,7 +151,7 @@ namespace WebProject.Migrations
 
                     b.HasIndex("PersonalID");
 
-                    b.ToTable("Servisler");
+                    b.ToTable("Servisler", (string)null);
                 });
 
             modelBuilder.Entity("WebProject.Models.User", b =>
@@ -228,34 +183,7 @@ namespace WebProject.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebProject.Models.Appointments", b =>
-                {
-                    b.HasOne("WebProject.Models.Personal", "Personal")
-                        .WithMany()
-                        .HasForeignKey("PersonalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProject.Models.Service", "Service")
-                        .WithMany()
-                        .HasForeignKey("ServiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebProject.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Personal");
-
-                    b.Navigation("Service");
-
-                    b.Navigation("User");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("WebProject.Models.PersonalAvailabilities", b =>
@@ -265,7 +193,7 @@ namespace WebProject.Migrations
                         .HasForeignKey("PersonalID");
                 });
 
-            modelBuilder.Entity("WebProject.Models.Service", b =>
+            modelBuilder.Entity("WebProject.Models.Services", b =>
                 {
                     b.HasOne("WebProject.Models.Personal", null)
                         .WithMany("Personal_Servisler")

@@ -8,14 +8,10 @@ public class Personal
 
     [Required] public string Ad { get; set; } = string.Empty;
     [Required] public string Soyad { get; set; } = string.Empty;
-    [Required] public string Uzmanlik { get; set; } = string.Empty;
-
+    [Required] public Service Uzmanlik { get; set; }
     [Required]
-
-
-
-
-    public ICollection<Service> Personal_Servisler { get; set; } = new List<Service>();
-    public ICollection<PersonalAvailabilities> Personal_Zamanlari { get; set; } = new List<PersonalAvailabilities>();
+    public DayOfWeek DayOfWeek { get; set; }
+    public TimeSpan Workingtime { get; set; }
+    public TimeSpan Endingtime { get; set; }
 }
 

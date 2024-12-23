@@ -23,29 +23,29 @@ public class AppointmentController : Controller
     public async Task<IActionResult> GetOneAppointment(int id)
     {
         var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
-                                
+
         if (appointment == null)
         {
-            return NotFound(); 
+            return NotFound();
         }
 
-        return View(appointment); 
+        return View(appointment);
     }
 
 
-    [HttpPost]   
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
     {
         if (ModelState.IsValid)
         {
-         appointment.CreatedAt = DateTime.UtcNow; 
-         context.Add(appointment); 
-         await context.SaveChangesAsync(); 
-         return RedirectToAction(nameof(Index)); 
+            appointment.CreatedAt = DateTime.UtcNow;
+            context.Add(appointment);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-         return View(appointment);
+        return View(appointment);
     }
 
 
@@ -61,13 +61,13 @@ public class AppointmentController : Controller
         }
 
         context.Appointments.Remove(appointment);
-        await context.SaveChangesAsync(); 
+        await context.SaveChangesAsync();
 
         return RedirectToAction(nameof(Index));
     }
 
 
-   private bool AppointmentExists(int id)
+    private bool AppointmentExists(int id)
     {
         return context.Appointments.Any(e => e.Id == id);
     }
@@ -103,10 +103,10 @@ public class AppointmentController : Controller
             }
         }
 
-        return View(updatedAppointment); 
+        return View(updatedAppointment);
     }
 
-    
+
 
 
 

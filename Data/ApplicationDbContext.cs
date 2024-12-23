@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Models;
 
-public class ApplicationDbContext : DbContext
+
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -19,16 +21,11 @@ public class ApplicationDbContext : DbContext
 
     }
 
-
-
-
-
     public DbSet<Salons> Salons { get; set; } = null!;
     public DbSet<Service> Services { get; set; } = null!;
-    public DbSet<Personal> Personals { get; set; } = null!;
-    public DbSet<Admin> Admins { get; set; } = null!;
-    public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
+    public DbSet<Personal> Personaller { get; set; } = null!;
     public DbSet<Appointments> Appointments { get; set; } = null!;
-    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
+    public override DbSet<User> Users { get; set; } = null!;
 
 }
