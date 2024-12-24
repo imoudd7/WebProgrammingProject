@@ -1,116 +1,141 @@
-
 using Microsoft.AspNetCore.Mvc;
-namespace WebProject.Controllers;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Models;
 
-public class AppointmentController : Controller
+namespace WebProject.Controllers
 {
-
-    private readonly ApplicationDbContext context;
-    public AppointmentController(ApplicationDbContext context)
+    public class AppointmentController : Controller
     {
-        this.context = context;
-    }
+        private readonly ApplicationDbContext context;
 
-
-    public async Task<IActionResult> GetAllAppointments()
-    {
-        var Appointments = await context.Appointments.ToListAsync();
-        return View(Appointments);
-    }
-
-    public async Task<IActionResult> GetOneAppointment(int id)
-    {
-        var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
-                                
-        if (appointment == null)
+        public AppointmentController(ApplicationDbContext context)
         {
-            return NotFound(); 
+            this.context = context;
         }
 
-        return View(appointment); 
-    }
-
-
-    [HttpPost]   
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
-    {
-        if (ModelState.IsValid)
+        public async Task<IActionResult> Index()
         {
-         appointment.CreatedAt = DateTime.UtcNow; 
-         context.Add(appointment); 
-         await context.SaveChangesAsync(); 
-         return RedirectToAction(nameof(Index)); 
+            var appointments = await context.Appointments.ToListAsync();
+            return View(appointments);
         }
 
-         return View(appointment);
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var appointment = await context.Appointments.FindAsync(id);
-
-        if (appointment == null)
+        public async Task<IActionResult> GetAllAppointments()
         {
-            return NotFound();
+            var appointments = await context.Appointments.ToListAsync();
+            return View(appointments);
         }
 
-        context.Appointments.Remove(appointment);
-        await context.SaveChangesAsync(); 
-
-        return RedirectToAction(nameof(Index));
-    }
-
-
-   private bool AppointmentExists(int id)
-    {
-        return context.Appointments.Any(e => e.Id == id);
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Update(int id, [Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments updatedAppointment)
-    {
-        if (id != updatedAppointment.Id)
+        public async Task<IActionResult> GetOneAppointment(int id)
         {
-            return BadRequest();
-        }
+            var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.AppointmentId == id);
 
-        if (ModelState.IsValid)
-        {
-            try
+            if (appointment == null)
             {
-                context.Update(updatedAppointment);
+                return NotFound();
+            }
+
+            return View(appointment);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
+        {
+            if (ModelState.IsValid)
+            {
+                appointment.CreatedAt = DateTime.UtcNow;
+                context.Add(appointment);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AppointmentExists(updatedAppointment.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            return View(appointment);
         }
 
-        return View(updatedAppointment); 
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await context.Appointments.FindAsync(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            return View(appointment);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId, AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
+        {
+            if (id != appointment.AppointmentId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    context.Update(appointment);
+                    await context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AppointmentExists(appointment.AppointmentId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(appointment);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var appointment = await context.Appointments.FirstOrDefaultAsync(m => m.AppointmentId == id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+
+            return View(appointment);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var appointment = await context.Appointments.FindAsync(id);
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            context.Appointments.Remove(appointment);
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool AppointmentExists(int id)
+        {
+            return context.Appointments.Any(e => e.AppointmentId == id);
+        }
     }
-
-    
-
-
-
-
-
-
 }
