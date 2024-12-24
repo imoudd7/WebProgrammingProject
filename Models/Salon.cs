@@ -1,21 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
 namespace WebProject.Models;
+
 
 public class Salon
 {
-    [Key]
-    public int SalonId { get; set; } 
-
-    [Required]
-    [MaxLength(100)]
+    [Key] public int SalonId { get; set; }
     public string Name { get; set; } = string.Empty; 
-    [MaxLength(250)]
-    public string Description { get; set; } = string.Empty; 
+    public string Description { get; set; } = string.Empty;
 
-
-    [ForeignKey("ResponsiblePersonnel")]
-    public int PersonalId { get; set; }
-    public Personal Personal { get; set; } = null!;
+    public int ServiceId { get; set; }
+    public Service Service { get; set; }
 }

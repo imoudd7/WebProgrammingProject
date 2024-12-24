@@ -10,7 +10,7 @@ public class ApplicationDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Web_Project;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=WebProject2;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
