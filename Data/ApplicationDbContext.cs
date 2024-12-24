@@ -12,7 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<User>
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Web_Project;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=WebProject2;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,11 +21,9 @@ public class ApplicationDbContext : IdentityDbContext<User>
 
     }
 
-    public DbSet<Salons> Salons { get; set; } = null!;
+    public DbSet<Salon> Salons { get; set; } = null!;
     public DbSet<Service> Services { get; set; } = null!;
     public DbSet<Personal> Personaller { get; set; } = null!;
     public DbSet<Appointments> Appointments { get; set; } = null!;
-    public DbSet<PersonalAvailabilities> Personal_Calisma_Zamanlari { get; set; } = null!;
     public override DbSet<User> Users { get; set; } = null!;
-
 }

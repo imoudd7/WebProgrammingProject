@@ -22,7 +22,7 @@ public class AppointmentController : Controller
 
     public async Task<IActionResult> GetOneAppointment(int id)
     {
-        var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.Id == id);
+        var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.AppointmentId == id);
 
         if (appointment == null)
         {
@@ -69,7 +69,7 @@ public class AppointmentController : Controller
 
     private bool AppointmentExists(int id)
     {
-        return context.Appointments.Any(e => e.Id == id);
+        return context.Appointments.Any(e => e.AppointmentId == id);
     }
 
 
@@ -77,7 +77,7 @@ public class AppointmentController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Update(int id, [Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments updatedAppointment)
     {
-        if (id != updatedAppointment.Id)
+        if (id != updatedAppointment.AppointmentId)
         {
             return BadRequest();
         }
@@ -92,7 +92,7 @@ public class AppointmentController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AppointmentExists(updatedAppointment.Id))
+                if (!AppointmentExists(updatedAppointment.AppointmentId))
                 {
                     return NotFound();
                 }

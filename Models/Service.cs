@@ -22,8 +22,7 @@ namespace WebProject.Models
         [DataType(DataType.Currency)]
         public decimal Price { get; set; }
 
-        [DefaultValue(true)]
-        [ConcurrencyCheck]
-        public bool IsActive { get; set; } = true;
+        public int PersonalId { get; set; }
+        public Personal Personal { get; set; }
     }
 }
