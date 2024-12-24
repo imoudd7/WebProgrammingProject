@@ -9,9 +9,5 @@ public class Personal
     [Required] public string Ad { get; set; } = string.Empty;
     [Required] public string Soyad { get; set; } = string.Empty;
     [Required] public Service Uzmanlik { get; set; }
-    [Required]
-    public DayOfWeek DayOfWeek { get; set; }
-    public TimeSpan Workingtime { get; set; }
-    public TimeSpan Endingtime { get; set; }
-}
 
+}

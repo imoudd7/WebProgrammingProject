@@ -5,10 +5,14 @@ namespace WebProject.Models;
 public class Appointments
 {
     [Key]
-    public int Id { get; set; }
+    public int AppointmentId { get; set; } 
 
     [Required]
     public DateTime AppointmentTime { get; set; }
+
+    [Required]
+
+    public DateTime CreatedAt {get;set;}
 
     [Required]
     public bool Onay { get; set; }
@@ -18,18 +22,11 @@ public class Appointments
     public decimal Ucret { get; set; }
 
     [Required]
-    public int PersonalId { get; set; }
-    public Personal Personal { get; set; }
+    public int SalonId { get; set; }
+    public Salon Salon { get; set; }
 
     [Required]
     public int UserId { get; set; }
     public User User { get; set; }
 
-    [Required]
-    public int ServiceId { get; set; }
-    public Service Service { get; set; }
-
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
-
-
