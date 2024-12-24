@@ -17,7 +17,7 @@ namespace WebProject.Controllers
 
 
 
-        
+
         public async Task<IActionResult> Index()
         {
             var Users = await context.Users.ToListAsync();
@@ -30,10 +30,10 @@ namespace WebProject.Controllers
 
             if (User == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            return View(User); 
+            return View(User);
         }
 
         public IActionResult Create()
@@ -48,25 +48,25 @@ namespace WebProject.Controllers
             if (ModelState.IsValid)
             {
                 context.Users.Add(user);
-                await context.SaveChangesAsync(); 
+                await context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "User created successfully!";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
-            return View(user); 
+            return View(user);
         }
 
 
 
 
-        
+
         public async Task<IActionResult> Edit(int id)
         {
             var user = await context.Users.FindAsync(id);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-            return View(user); 
+            return View(user);
         }
 
         [HttpPost]
@@ -75,12 +75,12 @@ namespace WebProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                context.Entry(user).State = EntityState.Modified; 
-                await context.SaveChangesAsync(); 
+                context.Entry(user).State = EntityState.Modified;
+                await context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "User updated successfully!";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
-            return View(user); 
+            return View(user);
         }
 
 
@@ -89,9 +89,9 @@ namespace WebProject.Controllers
             var user = await context.Users.FindAsync(id);
             if (user == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-            return View(user); 
+            return View(user);
         }
 
         [HttpPost, ActionName("Delete")]
