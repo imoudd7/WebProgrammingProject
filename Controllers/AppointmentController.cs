@@ -21,9 +21,14 @@ namespace WebProject.Controllers
 
         public async Task<IActionResult> GetAllAppointments()
         {
-            var appointments = await context.Appointments.ToListAsync();
+            var appointments = await context.Appointments
+                .Include(a => a.User)
+                .Include(a => a.Salon)
+                .ToListAsync();
+
             return View(appointments);
         }
+
 
         public async Task<IActionResult> GetOneAppointment(int id)
         {
@@ -41,20 +46,52 @@ namespace WebProject.Controllers
         {
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
+        public async Task<IActionResult> Create(Appointments appointment)
         {
-            if (ModelState.IsValid)
+            // Validate required fields
+            if (appointment.AppointmentTime == DateTime.MinValue)
             {
-                appointment.CreatedAt = DateTime.UtcNow;
-                context.Add(appointment);
-                await context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("AppointmentTime", "Appointment time is required.");
             }
-            return View(appointment);
+            if (appointment.UserId == null)
+            {
+                ModelState.AddModelError("UserId", "User ID is required.");
+            }
+            if (appointment.SalonId == null)
+            {
+                ModelState.AddModelError("SalonId", "Salon ID is required.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(appointment); // Return the view with errors
+            }
+
+            // Check if related entities exist
+            var user = await context.Users.FindAsync(appointment.UserId);
+            var salon = await context.Salons.FindAsync(appointment.SalonId);
+
+            if (user == null || salon == null)
+            {
+                ModelState.AddModelError("", "User or salon is not found!");
+                return View(appointment);
+            }
+
+            // Set additional properties
+            appointment.CreatedAt = DateTime.UtcNow;
+            appointment.Onay = false;
+
+            // Save to database
+            context.Add(appointment);
+            await context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Appointment created successfully!";
+            return RedirectToAction(nameof(Index));
         }
+
+
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -73,7 +110,7 @@ namespace WebProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId, AppointmentTime, IsConfirmed, Ucret, PersonalId, UserId, ServiceId")] Appointments appointment)
+        public async Task<IActionResult> Edit(int id, [Bind("AppointmentId, AppointmentTime, Onay, Ucret, UserId, SalonId, CreatedAt")] Appointments appointment)
         {
             if (id != appointment.AppointmentId)
             {
@@ -84,6 +121,17 @@ namespace WebProject.Controllers
             {
                 try
                 {
+
+                    var user = await context.Users.FindAsync(appointment.UserId);
+                    var salon = await context.Salons.FindAsync(appointment.SalonId);
+
+                    if (user == null || salon == null)
+                    {
+                        ModelState.AddModelError("", "user or salon is not found");
+                        return View(appointment);
+                    }
+
+
                     context.Update(appointment);
                     await context.SaveChangesAsync();
                 }

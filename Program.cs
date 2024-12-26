@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using WebProject.Models;
 using WebProject.Controllers;
 
@@ -18,7 +19,23 @@ internal class Program
         builder.Services.AddSession();//session ekleme
                                       // HttpContext.Session.SetString("Admin", "true"); to be added at login action result and in the admin controller to check HttpContext.Session.GetString("Admin") != "true"
 
+        builder.Services.AddIdentity<User, IdentityRole>()
+        .AddRoles<IdentityRole>()
+            .AddDefaultTokenProviders()
+            .AddDefaultUI()
 
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        builder.Services.AddControllersWithViews();
+
+        builder.Services.Configure<IdentityOptions>(options =>
+        {
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequiredLength = 5;
+
+            options.Lockout.MaxFailedAccessAttempts = 3;
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline
@@ -31,6 +48,7 @@ internal class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+        app.UseAuthentication();
 
         app.UseAuthorization();
 
@@ -82,4 +100,5 @@ internal class Program
 
         app.Run();
     }
+
 }

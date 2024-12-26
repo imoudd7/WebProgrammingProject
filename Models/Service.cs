@@ -23,6 +23,6 @@ namespace WebProject.Models
         public decimal Price { get; set; }
 
         public int PersonalId { get; set; }
-        public Personal Personal { get; set; }
+        public Personal? Personal { get; set; }
     }
 }

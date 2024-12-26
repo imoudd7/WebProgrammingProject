@@ -8,6 +8,6 @@ public class Personal
 
     [Required] public string Ad { get; set; } = string.Empty;
     [Required] public string Soyad { get; set; } = string.Empty;
-    [Required] public Service Uzmanlik { get; set; }
+    [Required] public string Uzmanlik { get; set; } = string.Empty;
 
 }
