@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebProject.Controllers;
 
 
-// [Authorize(Roles = 0)]
+[Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
 
