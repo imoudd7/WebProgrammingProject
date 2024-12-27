@@ -1,0 +1,103 @@
+using Microsoft.AspNetCore.Mvc;
+using WebProject.Models;
+using Newtonsoft.Json;
+using System.Text;
+
+namespace WebProject.Controllers
+{
+    public class ServiceConsumeApiController : Controller
+    {
+        ApplicationDbContext DataBase = new ApplicationDbContext();
+
+
+
+
+
+        public async Task<IActionResult> GetAllServices()
+        {
+            List<Service> services = new List<Service>();
+
+            try
+            {
+                using var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync("https://localhost:5180/api/ServiceApi/");
+                response.EnsureSuccessStatusCode();  
+                var jsonData = await response.Content.ReadAsStringAsync();
+                services = JsonConvert.DeserializeObject<List<Service>>(jsonData);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while fetching the data: " + ex.Message);
+                return View(new List<Service>());  
+            }
+
+            return View(services);  
+        }
+
+      
+
+
+        public ActionResult Details(int id)
+        {
+            var service = DataBase.Services.FirstOrDefault(a => a.Id == id);
+
+            if (service == null)
+            {
+                return NotFound("The requested service was not found.");
+            }
+
+            return View(service);  
+        }
+
+    
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Service newService)
+        {
+            if (newService == null)
+            {
+                return BadRequest("The new service cannot be null.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    using var httpClient = new HttpClient();
+                    var jsonService = JsonConvert.SerializeObject(newService);
+                    var content = new StringContent(jsonService, Encoding.UTF8, "application/json");
+
+                    var response = await httpClient.PostAsync("https://localhost:5180/api/ServiceApi/", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("GetAllServices"); 
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "An error occurred while adding the service.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "An error occurred: " + ex.Message);
+                }
+            }
+
+            return View(newService); 
+        }
+
+
+
+
+
+
+
+
+
+
+
+    }
+}

@@ -55,61 +55,62 @@ namespace WebProject.Controllers
 
 
         [HttpPost]
-        public IActionResult Post([FromBody] Appointments appointment)
+        public async Task<IActionResult> Post([FromBody] Appointments appointment)
         {
-            // Validate the incoming model
             if (appointment == null)
             {
-                return BadRequest("Invalid appointment data.");
+                return BadRequest(new { message = "Invalid appointment data." });
             }
+
 
             if (appointment.AppointmentTime == DateTime.MinValue)
             {
-                return BadRequest("Appointment time is required.");
+                return BadRequest(new { message = "Appointment time is required." });
             }
-
-            if (appointment.Ucret <= 0)
+            if (appointment.UserId == null)
             {
-                return BadRequest("Ucret must be greater than zero.");
+                return BadRequest(new { message = "User ID is required." });
             }
-
-            if (appointment.SalonId == null || appointment.UserId == null)
+            if (appointment.SalonId == null)
             {
-                return BadRequest("SalonId and UserId are required.");
+                return BadRequest(new { message = "Salon ID is required." });
             }
 
-            // Check if related entities exist
-            var userExists = context.Users.Any(u => u.Id == appointment.UserId);
-            var salonExists = context.Salons.Any(s => s.SalonId == appointment.SalonId);
 
-            if (!userExists)
+
+
+
+            var conflict = await context.Appointments
+                        .Include(a => a.Salon)
+                            .ThenInclude(s => s.Service)
+                            .ThenInclude(sv => sv.Personal)
+                        .Where(a => a.SalonId == appointment.SalonId &&
+                                    a.AppointmentTime == appointment.AppointmentTime)
+                        .FirstOrDefaultAsync();
+
+
+
+            if (conflict != null)
             {
-                return NotFound($"User with ID {appointment.UserId} does not exist.");
+                return Conflict(new { message = "Bu saatte sectin personal mesgul." });
             }
 
-            if (!salonExists)
+
+            var user = await context.Users.FindAsync(appointment.UserId);
+            if (user == null)
             {
-                return NotFound($"Salon with ID {appointment.SalonId} does not exist.");
+                return NotFound(new { message = "User not found." });
             }
 
-            // Set default values for fields not provided
+
             appointment.CreatedAt = DateTime.UtcNow;
-            appointment.Onay = false;
 
-            // Add and save the appointment
-            try
-            {
-                context.Appointments.Add(appointment);
-                context.SaveChanges();
-                return Ok($"{appointment.AppointmentId} has been added.");
-            }
-            catch (Exception ex)
-            {
-                // Log the error for debugging
-                Console.WriteLine($"Error saving appointment: {ex.Message}");
-                return StatusCode(500, "An error occurred while saving the appointment.");
-            }
+            context.Add(appointment);
+            await context.SaveChangesAsync();
+
+            return Ok(new { message = "Appointment created successfully!", appointmentId = appointment.AppointmentId });
         }
+
 
 
 

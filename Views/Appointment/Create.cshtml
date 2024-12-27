@@ -1,0 +1,75 @@
+@model WebProject.Models.Appointments
+
+
+@{
+    ViewData["Title"] = "Take Appointment";
+}
+
+<h2>Take Appointment</h2>
+
+<div>
+    @if (TempData["SuccessMessage"] != null)
+    {
+            <div class="alert alert-success">
+            @TempData["SuccessMessage"]
+            </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+            <div class="alert alert-danger">
+            @TempData["ErrorMessage"]
+            </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid)
+    {
+            <div class="alert alert-danger">
+                <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                            <li>@error.ErrorMessage</li>
+                }
+                </ul>
+            </div>
+    }
+</div>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="AppointmentTime" class="control-label">Appointment Time</label>
+        <input asp-for="AppointmentTime" class="form-control" type="datetime-local" />
+        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SalonId" class="control-label">Select Salon</label>
+        <select asp-for="SalonId" class="form-control" asp-items="ViewBag.Salons">
+            <option value="">-- Select a Salon --</option>
+        </select>
+        <span asp-validation-for="SalonId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Salon.ServiceId" class="control-label">Select Service</label>
+        <select asp-for="Salon.ServiceId" class="form-control" asp-items="ViewBag.Services">
+            <option value="">-- Select a Service --</option>
+        </select>
+        <span asp-validation-for="Salon.ServiceId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Salon.Service.PersonalId" class="control-label">Select Personal</label>
+        <select asp-for="Salon.Service.PersonalId" class="form-control" asp-items="ViewBag.Personals">
+            <option value="">-- Select Personal --</option>
+        </select>
+        <span asp-validation-for="Salon.Service.PersonalId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

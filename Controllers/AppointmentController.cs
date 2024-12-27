@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Models;
 
 namespace WebProject.Controllers
 {
+    [Authorize]
     public class AppointmentController : Controller
     {
         private readonly ApplicationDbContext context;
@@ -48,9 +50,9 @@ namespace WebProject.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointments appointment)
+        public async Task<IActionResult> Create(Appointments appointment, string action)
         {
-            // Validate required fields
+
             if (appointment.AppointmentTime == DateTime.MinValue)
             {
                 ModelState.AddModelError("AppointmentTime", "Appointment time is required.");
@@ -64,32 +66,64 @@ namespace WebProject.Controllers
                 ModelState.AddModelError("SalonId", "Salon ID is required.");
             }
 
+
             if (!ModelState.IsValid)
             {
-                return View(appointment); // Return the view with errors
-            }
-
-            // Check if related entities exist
-            var user = await context.Users.FindAsync(appointment.UserId);
-            var salon = await context.Salons.FindAsync(appointment.SalonId);
-
-            if (user == null || salon == null)
-            {
-                ModelState.AddModelError("", "User or salon is not found!");
                 return View(appointment);
             }
 
-            // Set additional properties
-            appointment.CreatedAt = DateTime.UtcNow;
-            appointment.Onay = false;
 
-            // Save to database
-            context.Add(appointment);
-            await context.SaveChangesAsync();
+            var salon = await context.Salons
+                .Include(s => s.Service)
+                    .ThenInclude(sv => sv.Personal)
+                .FirstOrDefaultAsync(s => s.SalonId == appointment.SalonId);
 
-            TempData["SuccessMessage"] = "Appointment created successfully!";
-            return RedirectToAction(nameof(Index));
+            if (salon == null || salon.Service == null || salon.Service.Personal == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid salon, service, or personal information. Please check your selection.");
+                return View(appointment);
+            }
+
+
+            var conflict = await context.Appointments
+                .Include(a => a.Salon)
+                    .ThenInclude(s => s.Service)
+                    .ThenInclude(sv => sv.Personal)
+                .Where(a => a.SalonId == appointment.SalonId &&
+                            a.Salon.Service.ServiceId == salon.Service.ServiceId &&
+                            a.Salon.Service.Personal.PersonalID == salon.Service.Personal.PersonalID &&
+                            a.AppointmentTime == appointment.AppointmentTime)
+                .FirstOrDefaultAsync();
+
+            if (conflict != null)
+            {
+                ModelState.AddModelError(string.Empty, "An appointment already exists at this time with the selected salon, service, and personal.");
+                return View(appointment);
+            }
+
+
+            var user = await context.Users.FindAsync(appointment.UserId);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "User not found!");
+                return View(appointment);
+            }
+
+
+
+            if (action == "Onay")
+            {
+                context.Add(appointment);
+                await context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Appointment created successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["InfoMessage"] = "Appointment creation was canceled.";
+            return View(appointment);
         }
+
 
 
 
