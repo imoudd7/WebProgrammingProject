@@ -27,6 +27,11 @@ namespace WebProject.Controllers
                 {
                     ServiceId = s.ServiceId,
                     Name = s.Name,
+                    Description = s.Description,
+                    Duration = s.Duration,
+                    Price = s.Price,
+                    PersonalId = s.PersonalId,
+                    Personal = s.Personal
                 }).ToList();
 
             return services;

@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebProject.Controllers;
 
 
-// [Authorize(Roles = 0)]
+
 public class AdminController : Controller
 {
 
 
+    [Authorize(Roles = "Admin")]
     public ActionResult AdminDashboard()
     {
         return View();
