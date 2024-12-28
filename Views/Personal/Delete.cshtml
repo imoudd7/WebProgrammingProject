@@ -1,0 +1,128 @@
+@model WebProject.Models.Personal
+
+@{
+    ViewData["Title"] = "Delete Personal";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .delete-form {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .delete-form h3 {
+            margin-bottom: 20px;
+        }
+
+        .confirmation-message {
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            text-align: center;
+        }
+
+        .actions button {
+            padding: 8px 12px;
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions button:hover {
+            background-color: #c9302c;
+        }
+
+        .actions a {
+            padding: 8px 12px;
+            background-color: #777;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .actions a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+            <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="delete-form">
+            <h3>Delete Personal</h3>
+
+            <div class="confirmation-message">
+                <p>Are you sure you want to delete the following personal details?</p>
+                <ul>
+                    <li><strong>Name:</strong> @Model.Ad</li>
+                    <li><strong>Surname:</strong> @Model.Soyad</li>
+                    <li><strong>Specialization:</strong> @Model.Uzmanlik</li>
+                    <li><strong>Earnings:</strong> @Model.Earnings</li>
+                </ul>
+            </div>
+
+            <form method="post">
+                <div class="actions">
+                    <button type="submit">Delete</button>
+                    <a href="@Url.Action("GetOnePersonal", "Personal", new { id = Model.PersonalID })">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>

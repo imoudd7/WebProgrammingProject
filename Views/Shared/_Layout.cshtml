@@ -28,19 +28,8 @@
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link active" asp-controller="Home" asp-action="Privacy">Ana Sayfa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Services">Servisler</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Appointment" asp-action="Index">Randevular</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment"
-                                asp-action="Create">Randevu AL
-                            </a>
-                        </li>
+                  
+                
 
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Admin"
@@ -59,9 +48,7 @@
         @RenderBody()
     </main>
 
-    <footer>
-        <p>&copy; 2024 Web Project Berber Randevu Sistemi</p>
-    </footer>
+  
 
     <!-- Optional Scripts Section -->
     @RenderSection("Scripts", required: false)

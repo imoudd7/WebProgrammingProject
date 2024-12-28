@@ -1,0 +1,176 @@
+@model WebProject.Models.Personal
+
+@{
+    ViewData["Title"] = "Create Personal";
+            Layout = null; 
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            display: block;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .form-group .error {
+            color: red;
+            font-size: 12px;
+        }
+
+        .form-group .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .form-group .btn:hover {
+            background-color: #45a049;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+            <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Create Personal</h2>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label for="Ad">First Name</label>
+                    <input type="text" id="Ad" name="Ad" value="@Model.Ad" class="form-control" required />
+                    @if (ViewData.ModelState["Ad"]?.Errors.Count > 0)
+                    {
+                        <div class="error">@ViewData.ModelState["Ad"]?.Errors[0]?.ErrorMessage</div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="Soyad">Last Name</label>
+                    <input type="text" id="Soyad" name="Soyad" value="@Model.Soyad" class="form-control" required />
+                    @if (ViewData.ModelState["Soyad"]?.Errors.Count > 0)
+                    {
+                        <div class="error">@ViewData.ModelState["Soyad"]?.Errors[0]?.ErrorMessage</div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="Uzmanlik">Specialization</label>
+                    <input type="text" id="Uzmanlik" name="Uzmanlik" value="@Model.Uzmanlik" class="form-control" required />
+                    @if (ViewData.ModelState["Uzmanlik"]?.Errors.Count > 0)
+                    {
+                        <div class="error">@ViewData.ModelState["Uzmanlik"]?.Errors[0]?.ErrorMessage</div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="Earnings">Earnings</label>
+                    <input type="number" id="Earnings" name="Earnings" value="@Model.Earnings" class="form-control" step="0.01" required />
+                    @if (ViewData.ModelState["Earnings"]?.Errors.Count > 0)
+                    {
+                        <div class="error">@ViewData.ModelState["Earnings"]?.Errors[0]?.ErrorMessage</div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2024 Admin Panel. All rights reserved.</p>
+    </div>
+
+</body>
+</html>

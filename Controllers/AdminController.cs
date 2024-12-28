@@ -1,17 +1,26 @@
-using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.AspNetCore.Mvc;
-namespace WebProject.Controllers;
+using WebProject.Models; // تأكد من استخدام المسار الصحيح للنموذج
 
-
-
-public class AdminController : Controller
+namespace WebProject.Controllers
 {
-
-
-    [Authorize(Roles = "Admin")]
-    public ActionResult AdminDashboard()
+    public class AdminController : Controller
     {
-        return View();
+        private readonly ApplicationDbContext _context;
+
+        public AdminController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public IActionResult AdminDashboard()
+        {
+       
+            var employees = _context.Personals.ToList();
+
+            var AppointmentTotal = _context.Users.Count();  
+            ViewData["AppointmentTotal"] = AppointmentTotal;
+
+            return View(employees);
+        }
     }
 }
