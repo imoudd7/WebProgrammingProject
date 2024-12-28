@@ -15,11 +15,7 @@ namespace WebProject.Controllers
             this.context = context;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            var appointments = await context.Appointments.ToListAsync();
-            return View(appointments);
-        }
+      
 
         public async Task<IActionResult> GetAllAppointments()
         {
@@ -32,6 +28,11 @@ namespace WebProject.Controllers
         }
 
 
+
+        public  IActionResult test()
+        {
+            return View();
+        }
         public async Task<IActionResult> GetOneAppointment(int id)
         {
             var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.AppointmentId == id);
@@ -44,13 +45,13 @@ namespace WebProject.Controllers
             return View(appointment);
         }
 
-        public IActionResult Create()
+        public IActionResult Index()
         {
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Appointments appointment, string action)
+        public async Task<IActionResult> Index(Appointments appointment, string action)
         {
 
             if (appointment.AppointmentTime == DateTime.MinValue)

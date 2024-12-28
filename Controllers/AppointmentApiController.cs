@@ -30,7 +30,6 @@ namespace WebProject.Controllers
          AppointmentTime = a.AppointmentTime,
          CreatedAt = a.CreatedAt,
          Onay = a.Onay,
-         Ucret = a.Ucret,
          SalonId = a.SalonId,
          UserId = a.UserId
      }).ToList();

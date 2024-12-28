@@ -17,9 +17,6 @@ public class Appointments
     [Required]
     public bool Onay { get; set; }
 
-    [Required]
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal Ucret { get; set; }
 
     [ForeignKey("Salon")]
     public int? SalonId { get; set; }

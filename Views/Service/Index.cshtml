@@ -1,65 +1,300 @@
-@model IEnumerable<WebProject.Models.Service>
-
-<!DOCTYPE html>
-<html lang="en">
+@{
+    ViewData["Title"] = "Barber Shop";
+    Layout = null; // إلغاء استخدام Layout
+}
+<!doctype html>
+<html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Services</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> Barber HTML-5 Template </title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	<!-- CSS here -->
+	<link rel="stylesheet" href="~/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/css/owl.carousel.min.css">
+	<link rel="stylesheet" href="~/css/slicknav.css">
+    <link rel="stylesheet" href="~/css/flaticon.css">
+    <link rel="stylesheet" href="~/css/gijgo.css">
+    <link rel="stylesheet" href="~/css/animate.min.css">
+    <link rel="stylesheet" href="~/css/animated-headline.css">
+	<link rel="stylesheet" href="~/css/magnific-popup.css">
+	<link rel="stylesheet" href="~/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="~/css/themify-icons.css">
+	<link rel="stylesheet" href="~/css/slick.css">
+	<link rel="stylesheet" href="~/css/nice-select.css">
+	<link rel="stylesheet" href="~/css/style.css">
 </head>
 <body>
-
-<div class="container mt-4">
-    <h1 class="my-4 text-center">Services</h1>
-
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success">
-            @TempData["SuccessMessage"]
+    <!-- ? Preloader Start -->
+    <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="preloader-circle"></div>
+                <div class="preloader-img pere-text">
+                    <img src="assets/img/logo/loder.png" alt="">
+                </div>
+            </div>
         </div>
-    }
+    </div>
+    <!-- Preloader Start -->
+    <header>
+        <!--? Header Start -->
+        <div class="header-area header-transparent">
+            <div class="main-header header-sticky">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <!-- Logo -->
+                        <div class="col-xl-2 col-lg-2 col-md-1">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="menu-main d-flex align-items-center justify-content-end">
+                                <!-- Main-menu -->
+                                <div class="main-menu f-right d-none d-lg-block">
+                                      <nav>
+                                        <ul id="navigation">
+                                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                            <li class="active"><a href="@Url.Action("Index", "Service")">Services</a></li>
+                                            <li class="active"><a href="@Url.Action("Index", "Appointment")">Appointment</a></li>
+                                                                                        <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
 
-    <div class="d-flex justify-content-between mb-3">
-        <a href="@Url.Action("Create", "Service")" class="btn btn-primary">Add New Service</a>
+                                            <li><a href="portfolio.html">Ai</a>
+                                               
+                                            <li><a asp-Area="Identity" asp-page="/Account/Register">Sign up</a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                                <div class="header-right-btn f-right d-none d-lg-block ml-30">
+<a asp-Area="Identity" asp-page="/Account/Login" class="btn header-btn">Login</a>
+                                </div>
+                            </div>
+                        </div>   
+                        <!-- Mobile Menu -->
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header End -->
+    </header>
+    <main>
+        <!--? Hero Start -->
+        <div class="slider-area2">
+            <div class="slider-height2 d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="hero-cap hero-cap2 pt-70 text-center">
+                                <h2>Our Services</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     <!-- Hero End -->
+<!-- Services Area Start -->
+<br>
+<br>
+<br>
+<section class="service-area section-padding30">
+    <div class="container">
+        <!-- Section Title -->
+        <div class="row d-flex justify-content-center">
+            <div class="col-xl-7 col-lg-8 col-md-11 col-sm-11">
+                <div class="section-title text-center mb-90">
+                    <span>Professional Services</span>
+                    <h2>Our Best Services That We Offer to You</h2>
+                </div>
+            </div>
+        </div>
+        <!-- Section Caption -->
+        <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="services-caption text-center mb-30">
+                    <div class="service-icon">
+                        <i class="flaticon-healthcare-and-medical"></i>
+                    </div>
+                    <div class="service-cap">
+                        <h4><a href="#">Haircut</a></h4>
+                        <p>Achieve your style with professional and modern haircuts. Our experienced team creates the perfect haircut tailored to you.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="services-caption active text-center mb-30">
+                    <div class="service-icon">
+                        <i class="flaticon-fitness"></i>
+                    </div>
+                    <div class="service-cap">
+                        <h4><a href="#">Beard Trim</a></h4>
+                        <p>Our expert team provides modern and professional beard trimming services.</p>
+                        <br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6">
+                <div class="services-caption text-center mb-30">
+                    <div class="service-icon">
+                        <i class="flaticon-clock"></i>
+                    </div>
+                    <div class="service-cap">
+                        <h4><a href="#">Skin Care</a></h4>
+                        <p>Our expert team offers professional skin care services, giving you a fresh and healthy appearance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+        <!-- Services Area End -->
+    </main>
+        <!-- Footer Start -->
+        <footer>
+            <div class="footer-area section-bg" data-background="~/img/gallery/footer_bg.png">
+                <div class="container">
+                    <div class="footer-top footer-padding">
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-xl-3 col-lg-4 col-md-5 col-sm-8">
+                                <div class="single-footer-caption mb-50">
+                                    <!-- logo -->
+                                    <div class="footer-logo">
+                                        <a href="@Url.Action("Index", "Home")"><img src="~/img/logo/logo2_footer.png" alt=""></a>
+                                    </div>
+                                    <div class="footer-tittle">
+                                        <div class="footer-pera">
+                                            <p class="info1">Receive updates and latest news direct from Simply enter.</p>
+                                        </div>
+                                    </div>
+                                    <div class="footer-number">
+                                        <h4><span>+564 </span>7885 3222</h4>
+                                        <p>barber@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Location</h4>
+                                        <ul>
+                                            <li><a href="#">Advanced</a></li>
+                                            <li><a href="#">Management</a></li>
+                                            <li><a href="#">Corporate</a></li>
+                                            <li><a href="#">Customer</a></li>
+                                            <li><a href="#">Information</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-5">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Explore</h4>
+                                  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
+                                <div class="single-footer-caption mb-50">
+                                    <div class="footer-tittle">
+                                        <h4>Location</h4>
+                                        <div class="footer-pera">
+                                            <p class="info1">Subscribe now to get daily updates</p>
+                                        </div>
+                                    </div>
+                                    <!-- Form -->
+                                    <div class="footer-form">
+                                        <div id="mc_embed_signup">
+                                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part" novalidate="true">
+                                                <input type="email" name="EMAIL" id="newsletter-form-email" placeholder="Email Address" class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your email address'">
+                                                <div class="form-icon">
+                                                    <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm">Send</button>
+                                                </div>
+                                                <div class="mt-10 info"></div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-bottom">
+                        <div class="row d-flex justify-content-between align-items-center">
+                            <div class="col-xl-9 col-lg-8">
+                                <div class="footer-copy-right">
+                                    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  </a></p>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-4">
+                                <div class="footer-social f-right">
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#"><i class="fas fa-globe"></i></a>
+                                    <a href="#"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer End -->
+    </footer>
+    <!-- Scroll Up -->
+    <div id="back-top" >
+        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Service ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Duration</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var service in Model)
-            {
-                <tr>
-                    <td>@service.ServiceId</td>
-                    <td>@service.Name</td>
-                    <td>@service.Description</td>
-                    <td>@service.Duration</td>
-                    <td>@service.Price.ToString("C")</td>
-                    <td>
-                        <a href="@Url.Action("Edit", "Service", new { id = service.ServiceId })" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="@Url.Action("Delete", "Service", new { id = service.ServiceId })" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
+    <!-- JS here -->
 
-<!-- Bootstrap JS (optional, for some functionalities) -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="~/js/vendor/modernizr-3.5.0.min.js"></script>
+    <!-- Jquery, Popper, Bootstrap -->
+    <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <!-- Jquery Mobile Menu -->
+    <script src="~/js/jquery.slicknav.min.js"></script>
 
-</body>
+    <!-- Jquery Slick , Owl-Carousel Plugins -->
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/slick.min.js"></script>
+    <!-- One Page, Animated-HeadLin -->
+    <script src="~/js/wow.min.js"></script>
+    <script src="~/js/animated.headline.js"></script>
+    <script src="~/js/jquery.magnific-popup.js"></script>
+
+    <!-- Date Picker -->
+    <script src="~/js/gijgo.min.js"></script>
+    <!-- Nice-select, sticky -->
+    <script src="~/js/jquery.nice-select.min.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    <script src="~/js/jquery.sticky.js"></script>
+    
+    <!-- counter , waypoint,Hover Direction -->
+    <script src="~/js/jquery.counterup.min.js"></script>
+    <script src="~/js/waypoints.min.js"></script>
+    <script src="~/js/jquery.countdown.min.js"></script>
+    <script src="~/js/hover-direction-snake.min.js"></script>
+
+    <!-- contact js -->
+    <script src="~/js/contact.js"></script>
+    <script src="~/js/jquery.form.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/mail-script.js"></script>
+    <script src="~/js/jquery.ajaxchimp.min.js"></script>
+    
+    <!-- Jquery Plugins, main Jquery -->	
+    <script src="~/js/plugins.js"></script>
+    <script src="~/js/main.js"></script>
+    
+    </body>
 </html>

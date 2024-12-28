@@ -1,0 +1,31 @@
+@model IEnumerable<WebProject.Models.Appointments>
+@{
+    ViewData["Title"] = "All Appointments";
+}
+
+<h2>All Appointments</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>AppointmentTime</th>
+            <th>Onay</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appointment in Model)
+        {
+            <tr>
+                <td>@appointment.AppointmentId</td>
+                <td>@appointment.AppointmentTime</td>
+                <td>@appointment.Onay</td>
+                <td>@appointment.CreatedAt</td>
+                <td>
+                    <a href="@Url.Action("GetOneAppointment", "AppointmentConsumeApi", new { id = appointment.AppointmentId})" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
