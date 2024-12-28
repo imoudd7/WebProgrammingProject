@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebProject.Models;
 
@@ -29,10 +30,22 @@ namespace WebProject.Controllers
 
 
 
-        public  IActionResult test()
+        public IActionResult Index()
         {
+            var salons = context.Salons.ToList();
+            ViewBag.Salons = salons.Any() ? new SelectList(salons, "SalonId", "Name") : new SelectList(new List<Salon>(), "SalonId", "Name");
+
+            var services = context.Services.ToList();
+            ViewBag.Services = services.Any() ? new SelectList(services, "ServiceId", "Name") : new SelectList(new List<Service>(), "ServiceId", "Name");
+
+            var personals = context.Personals
+                                .Select(p => new { p.PersonalID, FullName = p.Ad + " " + p.Soyad })
+                                .ToList();
+            ViewBag.Personals = personals.Any() ? new SelectList(personals, "PersonalID", "FullName") : new SelectList(new List<object>(), "PersonalID", "FullName");
+
             return View();
         }
+
         public async Task<IActionResult> GetOneAppointment(int id)
         {
             var appointment = await context.Appointments.FirstOrDefaultAsync(a => a.AppointmentId == id);
@@ -45,10 +58,6 @@ namespace WebProject.Controllers
             return View(appointment);
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Appointments appointment, string action)
