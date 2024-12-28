@@ -1,0 +1,30 @@
+@model IEnumerable<WebProject.Models.Service>
+@{
+    ViewData["Title"] = "All Services";
+}
+
+<h2>All Services</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var service in Model)
+        {
+            <tr>
+                <td>@service.ServiceId</td>
+                <td>@service.Name</td>
+                <td>@service.Description</td>
+                <td>
+                    <a href="@Url.Action("Details", "ServiceConsumeApi", new { id = service.ServiceId })" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

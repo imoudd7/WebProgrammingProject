@@ -9,9 +9,14 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+
+    public ApplicationDbContext()
+    {
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=WebProject5;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
+        optionsBuilder.UseSqlServer(@"Server=localhost\MSSQLSERVER01;Database=Web;Encrypt=True;Trusted_Connection=True;TrustServerCertificate=True;");
 
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
