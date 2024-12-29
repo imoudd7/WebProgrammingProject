@@ -69,7 +69,6 @@
     .btn-secondary:hover {
         background-color: #5a6268;
     }
-
     .alert {
         margin-bottom: 20px;
     }
@@ -207,43 +206,47 @@
     }
 </div>
 
-<form class="form" asp-action="Create" method="post">
+
+
+<form asp-action="Index" method="post">
     <div class="form-group">
         <label asp-for="AppointmentTime" class="control-label">Appointment Time</label>
         <input asp-for="AppointmentTime" class="form-control" type="datetime-local" />
         <span asp-validation-for="AppointmentTime" class="text-danger"></span>
     </div>
 
+    <!-- Pick which Salon -->
     <div class="mb-3">
         <label asp-for="SalonId" class="form-label">Select Salon</label>
         <select asp-for="SalonId" class="form-select" asp-items="ViewBag.Salons">
         </select>
         <span asp-validation-for="SalonId" class="text-danger"></span>
     </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Salon.ServiceId" class="form-label">Select Service</label>
-        <select asp-for="Salon.ServiceId" class="form-select" asp-items="ViewBag.Services">
+     <div class="mb-3">
+        <label asp-for="ServiceId" class="form-label">Select Salon</label>
+        <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services">
         </select>
-        <span asp-validation-for="Salon.ServiceId" class="text-danger"></span>
+        <span asp-validation-for="SalonId" class="text-danger"></span>
     </div>
-
     <div class="mb-3">
-        <label asp-for="Salon.Service.PersonalId" class="form-label">Select Personal</label>
-        <select asp-for="Salon.Service.PersonalId" class="form-select" asp-items="ViewBag.Personals">
+        <label asp-for="PersonalID" class="form-label">Select Salon</label>
+        <select asp-for="PersonalID" class="form-select" asp-items="ViewBag.Personals">
         </select>
-        <span asp-validation-for="Salon.Service.PersonalId" class="text-danger"></span>
+        <span asp-validation-for="SalonId" class="text-danger"></span>
     </div>
 
-<div class="" style="gap: 40px;">
-    <br>
-    <br>
-    <button type="submit" class="btn btn-primary">Submit</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</div>
-
+    <button type="submit" class="btn btn-primary" name="action" value="Onay">
+        Onay
+    </button>
+    <button type="submit" class="btn btn-secondary" name="action" value="Cancel">
+        Cancel
+    </button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
       
 
 

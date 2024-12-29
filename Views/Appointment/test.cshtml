@@ -122,19 +122,19 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Salon.ServiceId" class="form-label">Select Service</label>
-        <select asp-for="Salon.ServiceId" class="form-select" asp-items="ViewBag.Services">
+        <label asp-for="ServiceId" class="form-label">Select Service</label>
+        <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services">
             <option value="">-- Select a Service --</option>
         </select>
-        <span asp-validation-for="Salon.ServiceId" class="text-danger"></span>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Salon.Service.PersonalId" class="form-label">Select Personal</label>
-        <select asp-for="Salon.Service.PersonalId" class="form-select" asp-items="ViewBag.Personals">
+        <label asp-for="PersonalID" class="form-label">Select Personal</label>
+        <select asp-for="PersonalID" class="form-select" asp-items="ViewBag.Personals">
             <option value="">-- Select Personal --</option>
         </select>
-        <span asp-validation-for="Salon.Service.PersonalId" class="text-danger"></span>
+        <span asp-validation-for="PersonalID" class="text-danger"></span>
     </div>
 
     <div class="d-flex justify-content-between">

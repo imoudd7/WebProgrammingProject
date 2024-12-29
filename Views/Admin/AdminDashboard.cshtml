@@ -2,11 +2,12 @@
 
 @{
     ViewData["Title"] = "Admin Dashboard";
-    Layout = null; 
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,7 +76,7 @@
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: 229px;
+            margin-top: 408px;
         }
 
         .earnings-table {
@@ -84,7 +85,8 @@
             border-collapse: collapse;
         }
 
-        .earnings-table th, .earnings-table td {
+        .earnings-table th,
+        .earnings-table td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
@@ -95,6 +97,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <nav>
@@ -141,16 +144,16 @@
 
                     @foreach (var personal in Model)
                     {
-                        totalEarnings += personal.Earnings; 
+                        totalEarnings += personal.Earnings;
                     }
 
-                    <h4>@totalEarnings</h4> 
+                    <h4>@totalEarnings</h4>
                 </div>
             </div>
 
             <div class="card">
                 <h4>Total Appointments</h4>
-                <h1>@ViewData["AppointmentTotal"]</h1> 
+                <h1>@ViewData["AppointmentTotal"]</h1>
             </div>
 
         </div>
@@ -161,4 +164,5 @@
     </div>
 
 </body>
+
 </html>

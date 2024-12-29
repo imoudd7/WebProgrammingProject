@@ -25,15 +25,15 @@ namespace WebProject.Controllers
 
             if (personal == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
 
-            return View(personal); 
+            return View(personal);
         }
 
         public IActionResult Create()
         {
-            return View(new Personal());  
+            return View(new Personal());
         }
 
         [HttpPost]
@@ -52,15 +52,15 @@ namespace WebProject.Controllers
                     context.Personals.Add(personal);
                     await context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Done";
-                    return RedirectToAction(nameof(Index));  
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError("", $"حدث خطأ: {ex.Message}");
+                    ModelState.AddModelError("", $"{ex.Message}");
                 }
             }
 
-            return View(personal); 
+            return View(personal);
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -68,9 +68,9 @@ namespace WebProject.Controllers
             var personal = await context.Personals.FindAsync(id);
             if (personal == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-            return View(personal); 
+            return View(personal);
         }
 
         [HttpPost]
@@ -79,12 +79,12 @@ namespace WebProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                context.Entry(personal).State = EntityState.Modified; 
-                await context.SaveChangesAsync(); 
+                context.Entry(personal).State = EntityState.Modified;
+                await context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Personal updated successfully!";
-                return RedirectToAction(nameof(Index)); 
+                return RedirectToAction(nameof(Index));
             }
-            return View(personal); 
+            return View(personal);
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -92,9 +92,9 @@ namespace WebProject.Controllers
             var personal = await context.Personals.FindAsync(id);
             if (personal == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-            return View(personal); 
+            return View(personal);
         }
 
         [HttpPost, ActionName("Delete")]

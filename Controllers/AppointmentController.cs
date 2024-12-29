@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,25 +11,24 @@ namespace WebProject.Controllers
     public class AppointmentController : Controller
     {
         private readonly ApplicationDbContext context;
+        private readonly UserManager<User> userManager;
 
-        public AppointmentController(ApplicationDbContext context)
+        public AppointmentController(ApplicationDbContext context, UserManager<User> userManager)
         {
             this.context = context;
+            this.userManager = userManager;
         }
 
-      
 
         public async Task<IActionResult> GetAllAppointments()
         {
             var appointments = await context.Appointments
-                .Include(a => a.User)
-                .Include(a => a.Salon)
+                .Include(a => a.UserId)
+                .Include(a => a.SalonId)
                 .ToListAsync();
 
             return View(appointments);
         }
-
-
 
         public IActionResult Index()
         {
@@ -62,19 +62,28 @@ namespace WebProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(Appointments appointment, string action)
         {
+            var userId = userManager.GetUserId(User);
+
+            // If user is not logged in, handle accordingly
+            if (string.IsNullOrEmpty(userId))
+            {
+
+
+                return RedirectToAction("Login", "Account");
+            }
+
+
+            appointment.UserId = userId;
 
             if (appointment.AppointmentTime == DateTime.MinValue)
             {
                 ModelState.AddModelError("AppointmentTime", "Appointment time is required.");
             }
-            if (appointment.UserId == null)
-            {
-                ModelState.AddModelError("UserId", "User ID is required.");
-            }
             if (appointment.SalonId == null)
             {
                 ModelState.AddModelError("SalonId", "Salon ID is required.");
             }
+
 
 
             if (!ModelState.IsValid)
@@ -84,26 +93,58 @@ namespace WebProject.Controllers
 
 
             var salon = await context.Salons
-                .Include(s => s.Service)
-                    .ThenInclude(sv => sv.Personal)
-                .FirstOrDefaultAsync(s => s.SalonId == appointment.SalonId);
+      .FirstOrDefaultAsync(s => s.SalonId == appointment.SalonId);
 
-            if (salon == null || salon.Service == null || salon.Service.Personal == null)
+
+            var service = await context.Services
+                .FirstOrDefaultAsync(s => s.ServiceId == appointment.ServiceId);
+            var Person = await context.Personals
+            .FirstOrDefaultAsync(s => s.PersonalID == appointment.PersonalID);
+
+
+
+            if (salon == null || service == null)
             {
-                ModelState.AddModelError(string.Empty, "Invalid salon, service, or personal information. Please check your selection.");
+                ModelState.AddModelError(string.Empty, "Invalid salon or service.");
+                return View(appointment);
+            }
+
+            if (Person == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid personal.");
                 return View(appointment);
             }
 
 
-            var conflict = await context.Appointments
-                .Include(a => a.Salon)
-                    .ThenInclude(s => s.Service)
-                    .ThenInclude(sv => sv.Personal)
-                .Where(a => a.SalonId == appointment.SalonId &&
-                            a.Salon.Service.ServiceId == salon.Service.ServiceId &&
-                            a.Salon.Service.Personal.PersonalID == salon.Service.Personal.PersonalID &&
-                            a.AppointmentTime == appointment.AppointmentTime)
-                .FirstOrDefaultAsync();
+            DateTime newAppointmentStart = appointment.AppointmentTime;
+
+
+            TimeSpan duration = service.Duration;
+            DateTime newAppointmentEnd = newAppointmentStart.Add(duration);
+            // 2) Broad filter: same Personal, and the existing appointment starts before your end
+            //    (You can also do an additional filter: a.AppointmentTime >= someMinimum if needed)
+            var potentialConflicts = await (
+                from ap in context.Appointments
+                where ap.PersonalID == appointment.PersonalID
+                      // optional partial filter: a.AppointmentTime < newAppointmentEnd
+                      // (this alone is translatable, because it's just a DateTime < DateTime)
+                      && ap.AppointmentTime < newAppointmentEnd
+                // We'll also join to Service to retrieve its Duration
+                join sr in context.Services on ap.ServiceId equals sr.ServiceId
+                select new
+                {
+                    AppointmentId = ap.AppointmentId,
+                    AppointmentStart = ap.AppointmentTime,
+                    ServiceDuration = sr.Duration
+                }
+            ).ToListAsync();
+            var conflict = potentialConflicts.FirstOrDefault(pc =>
+                // Overlap condition: [newStart, newEnd) vs [pc.AppointmentStart, pcEnd)
+                newAppointmentStart < pc.AppointmentStart.Add(pc.ServiceDuration)
+                && pc.AppointmentStart < newAppointmentEnd
+            );
+
+
 
             if (conflict != null)
             {
@@ -123,6 +164,11 @@ namespace WebProject.Controllers
 
             if (action == "Onay")
             {
+                Person.Earnings += service.Price;
+
+                context.Appointments.Add(appointment);
+
+
                 context.Add(appointment);
                 await context.SaveChangesAsync();
 

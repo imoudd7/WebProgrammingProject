@@ -20,13 +20,17 @@ public class Appointments
 
     [ForeignKey("Salon")]
     public int? SalonId { get; set; }
+    [ForeignKey("Service")]
+    public int? ServiceId { get; set; }
+    [ForeignKey("Personal")]
+    public int? PersonalID { get; set; }
 
 
-    public virtual Salon? Salon { get; set; }
+    // public virtual Salon? Salon { get; set; }
 
     [ForeignKey("User")]
     public string? UserId { get; set; }
-    public virtual User? User { get; set; }
+    // public virtual User? User { get; set; }
 
 
 
