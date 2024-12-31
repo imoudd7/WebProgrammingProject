@@ -121,16 +121,20 @@
                             <div class="menu-main d-flex align-items-center justify-content-end">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
-                                      <nav>
+                                     <nav>
                                         <ul id="navigation">
-                                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                            <li class="active"><a href="@Url.Action("Index", "Service")">Services</a></li>
-                                            <li class="active"><a href="@Url.Action("Index", "Appointment")">Appointment</a></li>
-                                                                                        <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+                                            <li class=""><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                            <li class=""><a href="@Url.Action("Index", "Service")">Services</a>
+                                            </li>
+                                            <li class=""><a href="@Url.Action("Index", "Appointment")">Appointment</a>
+                                            </li>
+                                            <li class=""><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+                                            <li class=""><a href="@Url.Action("Index", "ImageAi")">Ai</a>
+                                            </li>
 
-                                            <li><a href="portfolio.html">Ai</a>
-                                               
-                                            <li><a asp-Area="Identity" asp-page="/Account/Register">Sign up</a></li>
+                                            <li><a asp-Area="Identity" asp-page="/Account/Register">Sign up </a></li>
+                                            <li><a asp-Area="Identity" asp-page="/Account/Logout">Log out </a></li>
+
                                         </ul>
                                     </nav>
                                 </div>
@@ -167,6 +171,10 @@
         <!-- Hero End -->
 
 
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -215,25 +223,38 @@
         <span asp-validation-for="AppointmentTime" class="text-danger"></span>
     </div>
 
+    <br>
     <!-- Pick which Salon -->
     <div class="mb-3">
         <label asp-for="SalonId" class="form-label">Select Salon</label>
         <select asp-for="SalonId" class="form-select" asp-items="ViewBag.Salons">
+         <option value=""></option>
         </select>
         <span asp-validation-for="SalonId" class="text-danger"></span>
     </div>
+    <br>
+    <br>
+    <br>
      <div class="mb-3">
-        <label asp-for="ServiceId" class="form-label">Select Salon</label>
+        <label asp-for="ServiceId" class="form-label">Select service</label>
         <select asp-for="ServiceId" class="form-select" asp-items="ViewBag.Services">
+         <option value=""></option>
         </select>
-        <span asp-validation-for="SalonId" class="text-danger"></span>
+        <span asp-validation-for="ServiceId" class="text-danger"></span>
     </div>
+    <br>
+    <br>
+    <br>
     <div class="mb-3">
-        <label asp-for="PersonalID" class="form-label">Select Salon</label>
+        <label asp-for="PersonalID" class="form-label">Select personal</label>
         <select asp-for="PersonalID" class="form-select" asp-items="ViewBag.Personals">
+         <option value=""></option>
         </select>
-        <span asp-validation-for="SalonId" class="text-danger"></span>
+        <span asp-validation-for="PersonalID" class="text-danger"></span>
     </div>
+    <br>
+    <br>
+    <br>
 
     <button type="submit" class="btn btn-primary" name="action" value="Onay">
         Onay

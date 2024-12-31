@@ -15,9 +15,6 @@ internal class Program
         string password = "sau";
         string hashedPassword = hasher.HashPassword(null, password);
 
-        // Print the plain and hashed passwords to the console
-        Console.WriteLine($"Plain Password: {password}");
-        Console.WriteLine($"Hashed Password: {hashedPassword}");
         // إعداد Identity
         builder.Services.AddIdentity<User, IdentityRole>()
             .AddRoles<IdentityRole>()
@@ -45,6 +42,7 @@ internal class Program
 
         var app = builder.Build();
 
+
         // Configure the HTTP request pipeline
         if (!app.Environment.IsDevelopment())
         {
@@ -61,9 +59,13 @@ internal class Program
         app.UseSession(); // لتفعيل جلسات العمل
 
         // إعداد المسارات
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+        app.UseEndpoints(endpoints =>
+ {
+     endpoints.MapControllerRoute(
+         name: "default",
+         pattern: "{controller=Home}/{action=Index}/{id?}");
+ });
+
 
         app.MapRazorPages();
 

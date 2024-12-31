@@ -1,83 +1,87 @@
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using RestSharp;
 
 namespace WebProject.Controllers
 {
-    public class ImageController : Controller
+    public class ImageAiController : Controller
     {
-        private readonly IHttpClientFactory _httpClientFactory;
-
-        public ImageController(IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory;
-        }
-
-        // عرض الصفحة لتحميل الصورة
-        public IActionResult UploadImage()
-        {
-            return View();
-        }
-
-        // استقبال الصورة من المستخدم
         [HttpPost]
-        public async Task<IActionResult> ProcessImage(IFormFile image)
+        public IActionResult ProcessImage(IFormFile uploadedImage, string style)
         {
-            if (image == null || image.Length == 0)
+            if (uploadedImage == null || uploadedImage.Length == 0)
             {
-                return BadRequest("No image uploaded.");
+                TempData["ErrorMessage"] = "Please upload a photo.";
+                return RedirectToAction("Index");
             }
 
-            // تحميل الصورة إلى الذاكرة
-            using (var stream = new MemoryStream())
+            try
             {
-                await image.CopyToAsync(stream);
-                var imageBytes = stream.ToArray();
 
-                try
+                using var memoryStream = new MemoryStream();
+                uploadedImage.CopyTo(memoryStream);
+
+
+                var client = new RestClient("https://hairstyle-changer.p.rapidapi.com/huoshan/facebody/hairstyle");
+                var request = new RestRequest
                 {
-                    // إرسال الصورة إلى خدمة الذكاء الاصطناعي
-                    var resultImage = await ProcessWithAI(imageBytes);
+                    Method = Method.Post
+                };
 
-                    // إرسال الصورة المعدلة إلى الواجهة الأمامية
-                    return File(resultImage, "image/jpeg");
+                request.AddHeader("x-rapidapi-key", "1b052648e8msh6db3509001e1afcp11dd19jsnadfbd057279b");
+                request.AddHeader("x-rapidapi-host", "hairstyle-changer.p.rapidapi.com");
+                request.AddHeader("Content-Type", "multipart/form-data");
+
+                request.AddFile("image_target", memoryStream.ToArray(), uploadedImage.FileName);
+                request.AddParameter("hair_type", style);
+
+                RestResponse response = client.Execute(request);
+
+                if (response.IsSuccessful)
+                {
+                    var responseData = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(response.Content);
+                    string base64Image = responseData?.data?.image;
+                    ViewBag.ProcessedImage = $"data:image/png;base64,{base64Image}";
                 }
-                catch (Exception ex)
+                else
                 {
-                    // إذا حدث خطأ أثناء معالجة الصورة
-                    return BadRequest($"Error: {ex.Message}");
+                    TempData["ErrorMessage"] = "Image processing failed. Error: " + response.Content;
                 }
             }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"An error occurred: {ex.Message}";
+            }
+
+            return Index();
         }
 
-        private async Task<byte[]> ProcessWithAI(byte[] imageBytes)
+        private Stream imageBytes()
         {
-            using var httpClient = _httpClientFactory.CreateClient();
+            throw new NotImplementedException();
+        }
 
-            // إعداد الطلب (multipart/form-data)
-            var content = new MultipartFormDataContent();
-            var imageContent = new ByteArrayContent(imageBytes);
-            imageContent.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
-            content.Add(imageContent, "image", "uploaded-image.jpg");
-
-            // إعداد الهيدر الخاص بـ RapidAPI
-            httpClient.DefaultRequestHeaders.Add("x-rapidapi-key", "7616cc0407msh7180835d03f9371p180522jsnf4d939332427"); // المفتاح الخاص بك
-            httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", "hairstyle-changer.p.rapidapi.com");
-
-            // إرسال الطلب إلى API
-            var response = await httpClient.PostAsync("https://rapidapi.com/ailabapi-ailabapi-default/api/hairstyle-changer/playground/apiendpoint_98389214-31c8-41d7-9024-3a3b3f539acb", content);
-            if (response.IsSuccessStatusCode)
+        public IActionResult Index()
+        {
+            ViewBag.HairStyles = new Dictionary<int, string>
             {
-                // قراءة الصورة المعدلة كـ مصفوفة بايت
-                return await response.Content.ReadAsByteArrayAsync();
-            }
-            else
-            {
-                var errorContent = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Error processing the image. Status Code: {response.StatusCode}, Details: {errorContent}");
-            }
+            { 101, "Bangs (Default)" },
+            { 201, "Long Hair" },
+            { 301, "Bangs + Long Hair" },
+            { 401, "Medium-Length Hair" },
+            { 402, "Light Hair Enhancement" },
+            { 403, "Intense Hair Enhancement" },
+            { 502, "Light Curls" },
+            { 503, "Intense Curls" },
+            { 603, "Short Hair" },
+            { 801, "Blonde Hair" },
+            { 901, "Straight Hair" },
+            { 1001, "Oil-Free Hair" },
+            { 1101, "Hairline Filling" },
+            { 1201, "Neat Hair" },
+            { 1301, "Filling Hair Gaps" }
+
+            };
+            return View("Index");
         }
     }
 }

@@ -5,6 +5,7 @@
 
 <!doctype html>
 <html class="no-js" lang="zxx">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -29,6 +30,7 @@
     <link rel="stylesheet" href="~/css/nice-select.css">
     <link rel="stylesheet" href="~/css/style.css">
 </head>
+
 <body>
     <!-- Preloader Start -->
     <div id="preloader-active">
@@ -61,21 +63,26 @@
                                 <div class="main-menu f-right d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
-                                            <li class="active"><a href="@Url.Action("Index", "Service")">Services</a></li>
-                                            <li class="active"><a href="@Url.Action("Index", "Appointment")">Appointment</a></li>
-                                            <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
-                                            <li><a href="portfolio.html">Ai</a>
-                                               
-                                            <li><a asp-Area="Identity" asp-page="/Account/Register">Sign up</a></li>
-                                        </ul>   
+                                            <li class=""><a href="@Url.Action("Index", "Home")">Home</a></li>
+                                            <li class=""><a href="@Url.Action("Index", "Service")">Services</a>
+                                            </li>
+                                            <li class=""><a href="@Url.Action("Index", "Appointment")">Appointment</a>
+                                            </li>
+                                            <li class=""><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+                                            <li class=""><a href="@Url.Action("Index", "ImageAi")">Ai</a>
+                                            </li>
+
+                                            <li><a asp-Area="Identity" asp-page="/Account/Register">Sign up </a></li>
+                                            <li><a asp-Area="Identity" asp-page="/Account/Logout">Log out </a></li>
+
+                                        </ul>
                                     </nav>
                                 </div>
                                 <div class="header-right-btn f-right d-none d-lg-block ml-30">
-<a asp-Area="Identity" asp-page="/Account/Login" class="btn header-btn">Login</a>
+                                    <a asp-Area="Identity" asp-page="/Account/Login" class="btn header-btn">Login</a>
                                 </div>
                             </div>
-                        </div>   
+                        </div>
                         <!-- Mobile Menu -->
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
@@ -98,11 +105,12 @@
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
                                     <span data-animation="fadeInUp" data-delay="0.2s">Barber Salon</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look elegance</h1>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look
+                                        elegance</h1>
                                 </div>
                             </div>
                         </div>
-                    </div>          
+                    </div>
                 </div>
                 <!-- Single Slider -->
                 <div class="single-slider slider-height d-flex align-items-center">
@@ -111,11 +119,12 @@
                             <div class="col-xl-8 col-lg-9 col-md-11 col-sm-10">
                                 <div class="hero__caption">
                                     <span data-animation="fadeInUp" data-delay="0.2s">with Mahmoud</span>
-                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look elegance</h1>
+                                    <h1 data-animation="fadeInUp" data-delay="0.5s">Our Hair Style make your look
+                                        elegance</h1>
                                 </div>
                             </div>
                         </div>
-                    </div>          
+                    </div>
                 </div>
             </div>
             <!-- stroke Text -->
@@ -123,8 +132,8 @@
                 <h2>Get More confident</h2>
                 <h2>Get More confident</h2>
             </div>
-             <!-- Arrow -->
-             <div class="thumb-content-box">
+            <!-- Arrow -->
+            <div class="thumb-content-box">
                 <div class="thumb-content">
                     <h3>make an appointment now</h3>
                     <a href="Appointment/Index"> <i class="fas fa-long-arrow-alt-right"></i></a>
@@ -143,11 +152,13 @@
                                 <div class="single-footer-caption mb-50">
                                     <!-- logo -->
                                     <div class="footer-logo">
-                                        <a href="@Url.Action("Index", "Home")"><img src="~/img/logo/logo2_footer.png" alt=""></a>
+                                        <a href="@Url.Action("Index", "Home")"><img src="~/img/logo/logo2_footer.png"
+                                                alt=""></a>
                                     </div>
                                     <div class="footer-tittle">
                                         <div class="footer-pera">
-                                            <p class="info1">Receive updates and latest news direct from Simply enter.</p>
+                                            <p class="info1">Receive updates and latest news direct from Simply enter.
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="footer-number">
@@ -174,7 +185,7 @@
                                 <div class="single-footer-caption mb-50">
                                     <div class="footer-tittle">
                                         <h4>Explore</h4>
-                                  
+
                                     </div>
                                 </div>
                             </div>
@@ -189,10 +200,17 @@
                                     <!-- Form -->
                                     <div class="footer-form">
                                         <div id="mc_embed_signup">
-                                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscribe_form relative mail_part" novalidate="true">
-                                                <input type="email" name="EMAIL" id="newsletter-form-email" placeholder="Email Address" class="placeholder hide-on-focus" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Your email address'">
+                                            <form target="_blank"
+                                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                                method="get" class="subscribe_form relative mail_part"
+                                                novalidate="true">
+                                                <input type="email" name="EMAIL" id="newsletter-form-email"
+                                                    placeholder="Email Address" class="placeholder hide-on-focus"
+                                                    onfocus="this.placeholder = ''"
+                                                    onblur="this.placeholder = 'Your email address'">
                                                 <div class="form-icon">
-                                                    <button type="submit" name="submit" id="newsletter-submit" class="email_icon newsletter-submit button-contactForm">Send</button>
+                                                    <button type="submit" name="submit" id="newsletter-submit"
+                                                        class="email_icon newsletter-submit button-contactForm">Send</button>
                                                 </div>
                                                 <div class="mt-10 info"></div>
                                             </form>
@@ -206,7 +224,10 @@
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-xl-9 col-lg-8">
                                 <div class="footer-copy-right">
-                                    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved  </a></p>
+                                    <p>Copyright &copy;
+                                        <script>document.write(new Date().getFullYear());</script> All rights reserved
+                                        </a>
+                                    </p>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-lg-4">
@@ -252,4 +273,5 @@
         <script src="~/js/main.js"></script>
     </main>
 </body>
+
 </html>

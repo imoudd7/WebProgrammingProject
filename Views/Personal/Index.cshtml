@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "Personal List";
-        Layout = null; 
+    Layout = null;
 
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +59,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             padding: 10px;
             border: 1px solid #ddd;
             text-align: left;
@@ -86,13 +88,16 @@
         }
     </style>
 </head>
+
 <body>
 
     <nav>
-      <ul>
+        <ul>
             <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
             <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
             <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+            <li class="active"><a href="@Url.Action("GetAllAppointments", "AppointmentConsumeApi")">Appointments</a>
+            </li>
         </ul>
     </nav>
 
@@ -113,7 +118,7 @@
                     <tr>
                         <th>Name</th>
                         <th>Surname</th>
-           
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -123,10 +128,12 @@
                         <tr>
                             <td>@personal.Ad</td>
                             <td>@personal.Soyad</td>
-                       
+
                             <td class="actions">
-                                <a href="@Url.Action("GetOnePersonal", "Personal", new { id = personal.PersonalID })">View</a>
-                                <a href="@Url.Action("Edit", "Personal", new { id = personal.PersonalID })">Edit</a>
+                                <a
+                                    href="@Url.Action("GetOnePersonal", "Personal", new { id = personal.PersonalID })">View</a>
+                                <a asp-asp-controller="Personal" asp-action="Edit"
+                                    asp-route-id="@personal.PersonalID">Edit</a>
                                 <a href="@Url.Action("Delete", "Personal", new { id = personal.PersonalID })">Delete</a>
                             </td>
                         </tr>
@@ -142,4 +149,5 @@
     </div>
 
 </body>
+
 </html>

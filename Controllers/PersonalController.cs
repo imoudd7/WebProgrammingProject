@@ -62,6 +62,7 @@ namespace WebProject.Controllers
 
             return View(personal);
         }
+        [HttpGet("Personal/Edit/{id}")]
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -73,19 +74,23 @@ namespace WebProject.Controllers
             return View(personal);
         }
 
-        [HttpPost]
+        [HttpPost("Personal/Edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Personal personal)
+        public async Task<IActionResult> EditConfirm(int id, Personal person)
         {
+            if (id != person.PersonalID) return BadRequest("Mismatched ID");
+
             if (ModelState.IsValid)
             {
-                context.Entry(personal).State = EntityState.Modified;
+                context.Personals.Update(person);
                 await context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Personal updated successfully!";
+                TempData["SuccessMessage"] = "Updated!";
                 return RedirectToAction(nameof(Index));
             }
-            return View(personal);
+            return View(person);
         }
+
+
 
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,14 +1,17 @@
+@using Microsoft.AspNetCore.Http
+
 @{
     ViewData["Title"] = "Barber Shop";
-    Layout = null; // إلغاء استخدام Layout
+    Layout = null; // Disable default layout
 }
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Barber HTML-5 Template </title>
+    <title>Barber Shop - AI Haircut</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="manifest" href="site.webmanifest">
@@ -16,35 +19,12 @@
 
     <!-- CSS here -->
     <link rel="stylesheet" href="~/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/css/slicknav.css">
-    <link rel="stylesheet" href="~/css/flaticon.css">
-    <link rel="stylesheet" href="~/css/gijgo.css">
-    <link rel="stylesheet" href="~/css/animate.min.css">
-    <link rel="stylesheet" href="~/css/animated-headline.css">
-    <link rel="stylesheet" href="~/css/magnific-popup.css">
-    <link rel="stylesheet" href="~/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="~/css/themify-icons.css">
-    <link rel="stylesheet" href="~/css/slick.css">
-    <link rel="stylesheet" href="~/css/nice-select.css">
     <link rel="stylesheet" href="~/css/style.css">
 </head>
 
 <body>
-    <!-- ? Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="assets/img/logo/loder.png" alt="">
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Preloader Start -->
     <header>
-        <!--? Header Start -->
+        <!-- Header Start -->
         <div class="header-area header-transparent">
             <div class="main-header header-sticky">
                 <div class="container-fluid">
@@ -52,7 +32,6 @@
                         <!-- Logo -->
                         <div class="col-xl-2 col-lg-2 col-md-1">
                             <div class="logo">
-                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10 col-md-10">
@@ -77,7 +56,7 @@
                                     </nav>
                                 </div>
                                 <div class="header-right-btn f-right d-none d-lg-block ml-30">
-                                    <a asp-Area="Identity" asp-page="/Account/Login" class="btn header-btn">Login</a>
+                                    <a asp-area="Identity" asp-page="/Account/Login" class="btn header-btn">Login</a>
                                 </div>
                             </div>
                         </div>
@@ -91,23 +70,23 @@
         </div>
         <!-- Header End -->
     </header>
+
     <main>
-        <!--? Hero Start -->
+        <!-- Hero Start -->
         <div class="slider-area2">
             <div class="slider-height2 d-flex align-items-center">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="hero-cap hero-cap2 pt-70 text-center">
-                                <h2>Our Services</h2>
+                                <h2>AI Haircut</h2>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Hero End -->
-        <!-- Services Area Start -->
+
         <br>
         <br>
         <br>
@@ -116,62 +95,71 @@
         <br>
         <br>
         <br>
-        <section class="service-area section-padding30">
-            <div class="container">
-                <!-- Section Title -->
-                <div class="row d-flex justify-content-center">
-                    <div class="col-xl-7 col-lg-8 col-md-11 col-sm-11">
-                        <div class="section-title text-center mb-90">
-                            <span>Professional Services</span>
-                            <h2>Our Best Services That We Offer to You</h2>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+        <!-- Main Content Section -->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    @* Form and Result Section *@
+                    @{
+                        ViewData["Title"] = "Hair Style Suggestion";
+                        var hairStyles = ViewBag.HairStyles as Dictionary<int, string>;
+                    }
+
+                    <h1 class="text-center mb-4">Hair Style Suggestion</h1>
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger text-center">
+                            @TempData["ErrorMessage"]
                         </div>
-                    </div>
-                </div>
-                <!-- Section Caption -->
-                <div class="row">
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-healthcare-and-medical"></i>
-                            </div>
-                            <div class="service-cap">
-                                <h4><a href="#">Haircut</a></h4>
-                                <p>Achieve your style with professional and modern haircuts. Our experienced team
-                                    creates the perfect haircut tailored to you.</p>
-                            </div>
+                    }
+
+                    @if (ViewBag.ProcessedImage != null)
+                    {
+                        <!-- Result Section -->
+                        <div class="text-center">
+                            <h3>Processed Image:</h3>
+                            <img src="@ViewBag.ProcessedImage" alt="Processed Image" class="img-fluid mt-3" />
+                            <a href="@Url.Action("ProcessImage", "ImageAi")" class="btn btn-primary mt-3">Upload a New
+                                Image</a>
                         </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption active text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-fitness"></i>
+                    }
+                    else
+                    {
+                        <!-- Form Section -->
+                        <form asp-action="ProcessImage" method="post" enctype="multipart/form-data" class="mt-4">
+                            <div class="form-group">
+                                <label for="uploadedImage">Upload a Photo:</label>
+                                <input type="file" id="uploadedImage" name="uploadedImage" accept="image/*"
+                                    class="form-control" required />
                             </div>
-                            <div class="service-cap">
-                                <h4><a href="#">Beard Trim</a></h4>
-                                <p>Our expert team provides modern and professional beard trimming services.</p>
-                                <br>
+                            <div class="form-group">
+                                <label for="style">Select a Hair Style:</label>
+                                <select id="style" name="style" class="form-control" required>
+                                    <option value="" disabled selected>Select a hair style</option>
+                                    @foreach (var style in hairStyles)
+                                    {
+                                        <option value="@style.Key">@style.Value</option>
+                                    }
+                                </select>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-lg-4 col-md-6">
-                        <div class="services-caption text-center mb-30">
-                            <div class="service-icon">
-                                <i class="flaticon-clock"></i>
-                            </div>
-                            <div class="service-cap">
-                                <h4><a href="#">Skin Care</a></h4>
-                                <p>Our expert team offers professional skin care services, giving you a fresh and
-                                    healthy appearance.</p>
-                            </div>
-                        </div>
-                    </div>
+                            <button type="submit" class="btn btn-success btn-block mt-3">Submit</button>
+                        </form>
+                    }
                 </div>
             </div>
-        </section>
-
-        <!-- Services Area End -->
+        </div>
     </main>
-    <!-- Footer Start -->
+
+    <!-- Footer Section -->
     <footer>
         <div class="footer-area section-bg" data-background="~/img/gallery/footer_bg.png">
             <div class="container">
@@ -179,10 +167,10 @@
                     <div class="row d-flex justify-content-between">
                         <div class="col-xl-3 col-lg-4 col-md-5 col-sm-8">
                             <div class="single-footer-caption mb-50">
-                                <!-- logo -->
+                                <!-- Logo -->
                                 <div class="footer-logo">
                                     <a href="@Url.Action("Index", "Home")"><img src="~/img/logo/logo2_footer.png"
-                                            alt=""></a>
+                                            alt="Footer Logo"></a>
                                 </div>
                                 <div class="footer-tittle">
                                     <div class="footer-pera">
@@ -213,35 +201,24 @@
                             <div class="single-footer-caption mb-50">
                                 <div class="footer-tittle">
                                     <h4>Explore</h4>
-
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-4 col-lg-4 col-md-6 col-sm-8">
                             <div class="single-footer-caption mb-50">
                                 <div class="footer-tittle">
-                                    <h4>Location</h4>
+                                    <h4>Subscribe</h4>
                                     <div class="footer-pera">
                                         <p class="info1">Subscribe now to get daily updates</p>
                                     </div>
                                 </div>
-                                <!-- Form -->
                                 <div class="footer-form">
-                                    <div id="mc_embed_signup">
-                                        <form target="_blank"
-                                            action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                            method="get" class="subscribe_form relative mail_part" novalidate="true">
-                                            <input type="email" name="EMAIL" id="newsletter-form-email"
-                                                placeholder="Email Address" class="placeholder hide-on-focus"
-                                                onfocus="this.placeholder = ''"
-                                                onblur="this.placeholder = 'Your email address'">
-                                            <div class="form-icon">
-                                                <button type="submit" name="submit" id="newsletter-submit"
-                                                    class="email_icon newsletter-submit button-contactForm">Send</button>
-                                            </div>
-                                            <div class="mt-10 info"></div>
-                                        </form>
-                                    </div>
+                                    <form action="#" method="get" class="subscribe_form relative mail_part"
+                                        novalidate="true">
+                                        <input type="email" name="EMAIL" id="newsletter-form-email"
+                                            placeholder="Email Address" class="placeholder hide-on-focus form-control">
+                                        <button type="submit" class="btn btn-primary mt-2">Subscribe</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -251,15 +228,15 @@
                     <div class="row d-flex justify-content-between align-items-center">
                         <div class="col-xl-9 col-lg-8">
                             <div class="footer-copy-right">
-                                <p>Copyright &copy;
-                                    <script>document.write(new Date().getFullYear());</script> All rights reserved </a>
+                                <p>&copy;
+                                    <script>document.write(new Date().getFullYear());</script> All rights reserved
                                 </p>
                             </div>
                         </div>
                         <div class="col-xl-3 col-lg-4">
                             <div class="footer-social f-right">
                                 <a href="#"><i class="fab fa-twitter"></i></a>
-                                <a href="https://www.facebook.com/sai4ull"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#"><i class="fas fa-globe"></i></a>
                                 <a href="#"><i class="fab fa-instagram"></i></a>
                             </div>
@@ -269,55 +246,18 @@
             </div>
         </div>
     </footer>
-    <!-- Footer End -->
-    </footer>
+
     <!-- Scroll Up -->
     <div id="back-top">
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
 
-    <!-- JS here -->
-
+    <!-- JavaScript -->
     <script src="~/js/vendor/modernizr-3.5.0.min.js"></script>
-    <!-- Jquery, Popper, Bootstrap -->
     <script src="~/js/vendor/jquery-1.12.4.min.js"></script>
     <script src="~/js/popper.min.js"></script>
     <script src="~/js/bootstrap.min.js"></script>
-    <!-- Jquery Mobile Menu -->
-    <script src="~/js/jquery.slicknav.min.js"></script>
-
-    <!-- Jquery Slick , Owl-Carousel Plugins -->
-    <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/slick.min.js"></script>
-    <!-- One Page, Animated-HeadLin -->
-    <script src="~/js/wow.min.js"></script>
-    <script src="~/js/animated.headline.js"></script>
-    <script src="~/js/jquery.magnific-popup.js"></script>
-
-    <!-- Date Picker -->
-    <script src="~/js/gijgo.min.js"></script>
-    <!-- Nice-select, sticky -->
-    <script src="~/js/jquery.nice-select.min.js"></script>
-    <script src="~/js/jquery.sticky.js"></script>
-    <script src="~/js/jquery.sticky.js"></script>
-
-    <!-- counter , waypoint,Hover Direction -->
-    <script src="~/js/jquery.counterup.min.js"></script>
-    <script src="~/js/waypoints.min.js"></script>
-    <script src="~/js/jquery.countdown.min.js"></script>
-    <script src="~/js/hover-direction-snake.min.js"></script>
-
-    <!-- contact js -->
-    <script src="~/js/contact.js"></script>
-    <script src="~/js/jquery.form.js"></script>
-    <script src="~/js/jquery.validate.min.js"></script>
-    <script src="~/js/mail-script.js"></script>
-    <script src="~/js/jquery.ajaxchimp.min.js"></script>
-
-    <!-- Jquery Plugins, main Jquery -->
-    <script src="~/js/plugins.js"></script>
     <script src="~/js/main.js"></script>
-
 </body>
 
 </html>

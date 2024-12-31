@@ -2,12 +2,13 @@
 
 @{
     ViewData["Title"] = "Create Personal";
-            Layout = null; 
+    Layout = null;
 
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,10 +100,11 @@
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: 20px;
+            margin-top: 240px;
         }
     </style>
 </head>
+
 <body>
 
     <nav>
@@ -110,6 +112,8 @@
             <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
             <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
             <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+            <li class="active"><a href="@Url.Action("GetAllAppointments", "AppointmentConsumeApi")">Appointments</a>
+            </li>
         </ul>
     </nav>
 
@@ -145,7 +149,8 @@
 
                 <div class="form-group">
                     <label for="Uzmanlik">Specialization</label>
-                    <input type="text" id="Uzmanlik" name="Uzmanlik" value="@Model.Uzmanlik" class="form-control" required />
+                    <input type="text" id="Uzmanlik" name="Uzmanlik" value="@Model.Uzmanlik" class="form-control"
+                        required />
                     @if (ViewData.ModelState["Uzmanlik"]?.Errors.Count > 0)
                     {
                         <div class="error">@ViewData.ModelState["Uzmanlik"]?.Errors[0]?.ErrorMessage</div>
@@ -154,7 +159,8 @@
 
                 <div class="form-group">
                     <label for="Earnings">Earnings</label>
-                    <input type="number" id="Earnings" name="Earnings" value="@Model.Earnings" class="form-control" step="0.01" required />
+                    <input type="number" id="Earnings" name="Earnings" value="@Model.Earnings" class="form-control"
+                        step="0.01" required />
                     @if (ViewData.ModelState["Earnings"]?.Errors.Count > 0)
                     {
                         <div class="error">@ViewData.ModelState["Earnings"]?.Errors[0]?.ErrorMessage</div>
@@ -168,9 +174,7 @@
         </div>
     </div>
 
-    <div class="footer">
-        <p>&copy; 2024 Admin Panel. All rights reserved.</p>
-    </div>
 
 </body>
+
 </html>

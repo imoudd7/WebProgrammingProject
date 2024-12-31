@@ -9,7 +9,7 @@ namespace WebProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AppointmentApiController : ControllerBase
+    public class AppointmentApiController : Controller
     {
         private readonly ApplicationDbContext context;
         private readonly UserManager<User> userManager;

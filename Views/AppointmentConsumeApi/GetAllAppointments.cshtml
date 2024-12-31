@@ -1,31 +1,143 @@
 @model IEnumerable<WebProject.Models.Appointments>
+
 @{
     ViewData["Title"] = "All Appointments";
+    Layout = null;
 }
 
-<h2>All Appointments</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>AppointmentTime</th>
-            <th>Onay</th>
-            <th>Created At</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var appointment in Model)
-        {
-            <tr>
-                <td>@appointment.AppointmentId</td>
-                <td>@appointment.AppointmentTime</td>
-                <td>@appointment.Onay</td>
-                <td>@appointment.CreatedAt</td>
-                <td>
-                    <a href="@Url.Action("GetOneAppointment", "AppointmentConsumeApi", new { id = appointment.AppointmentId})" class="btn btn-info">Details</a>
-                </td>
-            </tr>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
         }
-    </tbody>
-</table>
+
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .table-container {
+            margin-top: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .actions a {
+            padding: 8px 12px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .actions a:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
+            <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+            <li class="active"><a href="@Url.Action("GetAllAppointments", "AppointmentConsumeApi")">Appointments</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>All Appointments</h2>
+
+        <!-- عرض الرسالة عند النجاح في العمليات -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Appointment Time</th>
+                        <th>Onay</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var appointment in Model)
+                    {
+                        <tr>
+                            <td>@appointment.AppointmentId</td>
+                            <td>@appointment.AppointmentTime</td>
+                            <td>@appointment.Onay</td>
+                            <td>@appointment.CreatedAt</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

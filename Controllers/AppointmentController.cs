@@ -20,31 +20,29 @@ namespace WebProject.Controllers
         }
 
 
-        public async Task<IActionResult> GetAllAppointments()
-        {
-            var appointments = await context.Appointments
-                .Include(a => a.UserId)
-                .Include(a => a.SalonId)
-                .ToListAsync();
-
-            return View(appointments);
-        }
-
         public IActionResult Index()
         {
             var salons = context.Salons.ToList();
-            ViewBag.Salons = salons.Any() ? new SelectList(salons, "SalonId", "Name") : new SelectList(new List<Salon>(), "SalonId", "Name");
-
             var services = context.Services.ToList();
-            ViewBag.Services = services.Any() ? new SelectList(services, "ServiceId", "Name") : new SelectList(new List<Service>(), "ServiceId", "Name");
-
             var personals = context.Personals
-                                .Select(p => new { p.PersonalID, FullName = p.Ad + " " + p.Soyad })
-                                .ToList();
-            ViewBag.Personals = personals.Any() ? new SelectList(personals, "PersonalID", "FullName") : new SelectList(new List<object>(), "PersonalID", "FullName");
+                                   .Select(p => new { p.PersonalID, FullName = p.Ad + " " + p.Soyad })
+                                   .ToList();
+
+            ViewBag.Salons = salons.Any()
+                ? new SelectList(salons, "SalonId", "Name")
+                : new SelectList(new List<object>(), "SalonId", "Name");
+
+            ViewBag.Services = services.Any()
+                ? new SelectList(services, "ServiceId", "Name")
+                : new SelectList(new List<object>(), "ServiceId", "Name");
+
+            ViewBag.Personals = personals.Any()
+                ? new SelectList(personals, "PersonalID", "FullName")
+                : new SelectList(new List<object>(), "PersonalID", "FullName");
 
             return View();
         }
+
 
         public async Task<IActionResult> GetOneAppointment(int id)
         {
@@ -121,15 +119,10 @@ namespace WebProject.Controllers
 
             TimeSpan duration = service.Duration;
             DateTime newAppointmentEnd = newAppointmentStart.Add(duration);
-            // 2) Broad filter: same Personal, and the existing appointment starts before your end
-            //    (You can also do an additional filter: a.AppointmentTime >= someMinimum if needed)
             var potentialConflicts = await (
                 from ap in context.Appointments
                 where ap.PersonalID == appointment.PersonalID
-                      // optional partial filter: a.AppointmentTime < newAppointmentEnd
-                      // (this alone is translatable, because it's just a DateTime < DateTime)
                       && ap.AppointmentTime < newAppointmentEnd
-                // We'll also join to Service to retrieve its Duration
                 join sr in context.Services on ap.ServiceId equals sr.ServiceId
                 select new
                 {
@@ -139,7 +132,6 @@ namespace WebProject.Controllers
                 }
             ).ToListAsync();
             var conflict = potentialConflicts.FirstOrDefault(pc =>
-                // Overlap condition: [newStart, newEnd) vs [pc.AppointmentStart, pcEnd)
                 newAppointmentStart < pc.AppointmentStart.Add(pc.ServiceDuration)
                 && pc.AppointmentStart < newAppointmentEnd
             );
@@ -159,7 +151,6 @@ namespace WebProject.Controllers
                 ModelState.AddModelError("", "User not found!");
                 return View(appointment);
             }
-
 
 
             if (action == "Onay")

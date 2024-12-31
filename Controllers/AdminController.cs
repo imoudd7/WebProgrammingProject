@@ -18,7 +18,7 @@ namespace WebProject.Controllers
 
             var employees = _context.Personals.ToList();
 
-            var AppointmentTotal = _context.Users.Count();
+            var AppointmentTotal = _context.Appointments.Count();
             ViewData["AppointmentTotal"] = AppointmentTotal;
 
             return View(employees);

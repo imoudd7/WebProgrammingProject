@@ -2,10 +2,12 @@
 
 @{
     ViewData["Title"] = "Edit Personal Details";
+    Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -108,6 +110,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <nav>
@@ -115,6 +118,8 @@
             <li class="active"><a href="@Url.Action("Index", "Home")">Home</a></li>
             <li class="active"><a href="@Url.Action("AdminDashboard", "Admin")">Admin</a></li>
             <li class="active"><a href="@Url.Action("Index", "Personal")">Personal</a></li>
+            <li class="active"><a href="@Url.Action("GetAllAppointments", "AppointmentConsumeApi")">Appointments</a>
+            </li>
         </ul>
     </nav>
 
@@ -122,29 +127,33 @@
         <div class="edit-form">
             <h3>Edit Personal Details</h3>
 
-            <form method="post">
+            <form asp-controller="Personal" asp-action="Edit" asp-route-id="@Model.PersonalID" method="post">
+
+                <!-- Keep the primary key in a hidden field, too, just in case -->
+                <input type="hidden" asp-for="PersonalID" />
+
                 <div class="form-group">
-                    <label for="Ad">Name</label>
-                    <input type="text" id="Ad" name="Ad" value="@Model.Ad" required />
+                    <label asp-for="Ad"></label>
+                    <input asp-for="Ad" class="form-control" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="Soyad">Surname</label>
-                    <input type="text" id="Soyad" name="Soyad" value="@Model.Soyad" required />
+                    <label asp-for="Soyad"></label>
+                    <input asp-for="Soyad" class="form-control" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="Uzmanlik">Specialization</label>
-                    <input type="text" id="Uzmanlik" name="Uzmanlik" value="@Model.Uzmanlik" required />
+                    <label asp-for="Uzmanlik"></label>
+                    <input asp-for="Uzmanlik" class="form-control" required />
                 </div>
 
                 <div class="form-group">
-                    <label for="Earnings">Earnings</label>
-                    <input type="number" step="0.01" id="Earnings" name="Earnings" value="@Model.Earnings" required />
+                    <label asp-for="Earnings"></label>
+                    <input asp-for="Earnings" class="form-control" type="number" step="0.01" required />
                 </div>
 
                 <div class="actions">
-                    <button type="submit">Save Changes</button>
+                    <button type="submit">Save</button>
                     <a href="@Url.Action("GetOnePersonal", "Personal", new { id = Model.PersonalID })">Cancel</a>
                 </div>
             </form>
@@ -152,4 +161,5 @@
     </div>
 
 </body>
+
 </html>
