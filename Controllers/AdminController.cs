@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebProject.Models; // تأكد من استخدام المسار الصحيح للنموذج
+using WebProject.Models;
 
 namespace WebProject.Controllers
 {
